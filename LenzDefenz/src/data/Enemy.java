@@ -18,7 +18,7 @@ public class Enemy {
 	private float x,y,speed;
 	Texture texture;
 	private Tile startTile;
-	private boolean first = true;								//wenn der erste gegner geupdatet wird ist delta riesig
+	private boolean first = true, alive =true;								//wenn der erste gegner geupdatet wird ist delta riesig
 	static private TileBasedMap sd;
 	private TileGrid grid;
 	
@@ -53,6 +53,7 @@ public class Enemy {
 			
 			
 		}
+		this.target=path.getStep(0);
 	}	
 	
 	/*
@@ -61,15 +62,23 @@ public class Enemy {
 	
 	
 	public void update(){
+		/*
+		 * beim ersten Element ist Delta() extrem gross, deswegen 
+		 * er das nicht updaten
+		 */
 		if (first){
 			first=false;
 			return;
 		}
-		target = path.getStep(pathStatus);
+		
+		
+		
 		//check ob finished
 		if (target.getX()==19&&target.getY()==14){
 			finished = true;
-		}
+
+		}else
+			target = path.getStep(pathStatus);
 		float dx = this.getX()/64-target.getX();
 		float dy = (this.getY()/64)-target.getY();
 		dist = Math.sqrt(dx*dx+dy*dy);
@@ -78,6 +87,12 @@ public class Enemy {
 			//this.x=target.getX()*64;
 			//this.y=target.getY()*64;
 		} 
+		//check ob finished und über der letzten kachel, jetz stirbt der Mob
+		if(Math.abs(dist)<0.05 && finished){
+			speed=0;
+			Die();
+			return;
+		}
 		speed=11;
 		if (Math.abs(dx)>Math.abs(dy))
 			if(dx>0)
@@ -92,6 +107,10 @@ public class Enemy {
 		
 		
 			
+	}
+	
+	private void Die(){
+		alive = false;
 	}
 	
 	public void Draw(){
@@ -178,5 +197,8 @@ public class Enemy {
 		this.grid = grid;
 	}
 	
+	public boolean isAlive(){
+		return alive;
+	}
 
 }
