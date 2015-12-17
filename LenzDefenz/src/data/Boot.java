@@ -1,0 +1,81 @@
+package data;
+
+import static helpers.Artist.BeginSession;
+import org.lwjgl.opengl.Display;
+import org.newdawn.slick.opengl.Texture;
+
+import helpers.Clock;
+import pathfinding.AStarPathFinder;
+import pathfinding.Path;
+import pathfinding.PathFinder;
+import pathfinding.TileBasedMap;
+
+import static helpers.Artist.*;
+
+public class Boot {
+	
+	/** The path finder we'll use to search our map */
+	private PathFinder finder;
+	/** The last path found for the current unit */
+	private Path path;
+	/** The x coordinate of the target of the last path we searched for - used to cache and prevent constantly re-searching */
+	private int lastFindX = -1;
+	/** The y coordinate of the target of the last path we searched for - used to cache and prevent constantly re-searching */
+	private int lastFindY = -1;
+	
+	public static int[][] map = {
+			{2,2,2,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+			{2,2,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
+			{1,1,1,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
+			{2,2,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
+			{0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1},
+	};
+	public static TileGrid grid;
+	
+	Boot(){
+		
+		BeginSession();
+		
+		grid = new TileGrid(map);
+		//TileBasedMap sd = new TileGrid(map);
+		Enemy e = new Enemy(QuickLoad("ufo"),grid.getTile(0,2),64,64,4);
+		Wave wave = new Wave((float)22,e);
+		Player player = new Player(grid);
+		
+		
+		
+		
+		
+		while(!Display.isCloseRequested()){
+			Clock.update();
+			grid.Draw();
+			//finder = new AStarPathFinder(sd, 500, false);
+			wave.update();
+			player.update();
+			Display.update();
+			Display.sync(60);
+			//finder.findPath(new UnitMover(2), 0, 2, map[0].length-1, map.length-1);
+			
+			
+		}
+		
+		Display.destroy();
+	}
+
+	public static void main(String[] args) {
+		
+		new Boot();
+
+	}
+
+}
