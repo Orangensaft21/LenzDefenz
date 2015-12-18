@@ -2,7 +2,13 @@ package data;
 
 import static helpers.Artist.QuickLoad;
 
+import static helpers.Clock.*;
+
+
+
 public class Game {
+	
+	public static final int TILE_SIZE = 64;
 	
 	private TileGrid grid;
 	private Player player;
@@ -23,6 +29,7 @@ public class Game {
 		grid.Draw();
 		waveManager.update();
 		player.update();
+		//System.out.println(Delta());
 
 	}
 	

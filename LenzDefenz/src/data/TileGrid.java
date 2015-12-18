@@ -89,11 +89,12 @@ public class TileGrid implements TileBasedMap{
 	public boolean blocked(Mover mover, int x, int y) {
 		
 
-		if (map[x][y].getType().textureName=="grass"){
+		if (map[x][y].getType().textureName=="dirt"){
 			//System.out.println(Math.floor(map[x][y].getX()/64)+"y"+Math.floor(map[x][y].getY()/64)+"grass");
-			return true;
+			return false;
 		}
-		return false;
+		System.out.println(x+","+y+"dirt");
+		return true;
 	}
 	@Override
 	public float getCost(Mover mover, int sx, int sy, int tx, int ty) {

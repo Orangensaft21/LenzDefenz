@@ -3,9 +3,13 @@ package data;
 import static helpers.Artist.*;
 import static helpers.Clock.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class TowerCannon {
 	private float x,y,timeSinceLastShot,firingSpeed, angle;
@@ -15,6 +19,12 @@ public class TowerCannon {
 	private ArrayList<Projectile> projectiles;
 	private ArrayList<Enemy> enemies;
 	private Enemy target;
+	
+	//Sound
+	private Audio wavEffect;
+	
+	//Pojectile Hilfe
+	int projOutOfArea = -1;
 	
 	public TowerCannon(Texture texture, Tile startTile, int damage,ArrayList<Enemy> enemies){
 		this.x=startTile.getX();
@@ -31,6 +41,16 @@ public class TowerCannon {
 		this.enemies=enemies;
 		this.target=acquireTarget();
 		this.angle = calcAngle();
+		
+		/*sound
+		 * 
+		 */
+		try {
+			wavEffect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/awp1.wav"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private Enemy acquireTarget(){
@@ -42,14 +62,29 @@ public class TowerCannon {
 		return (float) Math.toDegrees(angleTemp) -90;
 	}
 	
+	/*
+	 * Projectiles deleten nich elegant aber funktioniert.
+	 */
 	public void update(){
+		
 		timeSinceLastShot += Delta();
 		if (timeSinceLastShot > firingSpeed){
+			
 			Shoot();
+			System.out.println(projectiles.size());
 		}
 		
-		for (Projectile p:projectiles)
-			p.update();
+		for (Projectile p:projectiles){
+			if (p.isOnMap())
+				p.update();
+				else{
+					projOutOfArea=projectiles.indexOf(p);
+			}
+		}
+		if (projOutOfArea!=-1){
+			projectiles.remove(projOutOfArea);
+			projOutOfArea=-1;
+		}
 		angle = calcAngle();
 		Draw();
 	}
@@ -61,7 +96,9 @@ public class TowerCannon {
 	
 	public void Shoot(){
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(QuickLoad("bullet"),x+32,y+32,111,12));
+		projectiles.add(new Projectile(QuickLoad("bullet"),x+Game.TILE_SIZE/2-Game.TILE_SIZE/4,
+									   y+Game.TILE_SIZE/2-Game.TILE_SIZE/4,911,12,target));
+		//wavEffect.playAsSoundEffect(1.0f, 1.0f, false);
 	}
 
 }

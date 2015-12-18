@@ -82,24 +82,24 @@ public class Enemy {
 		float dx = this.getX()/64-target.getX();
 		float dy = (this.getY()/64)-target.getY();
 		dist = Math.sqrt(dx*dx+dy*dy);
-		if(Math.abs(dist)<0.05 && !finished){
+		if(Math.abs(dist)<0.2 && !finished){
 			pathStatus++;
 			//this.x=target.getX()*64;
 			//this.y=target.getY()*64;
 		} 
 		//check ob finished und über der letzten kachel, jetz stirbt der Mob
-		if(Math.abs(dist)<0.05 && finished){
+		if(Math.abs(dist)<0.2 && finished){
 			speed=0;
 			Die();
 			return;
 		}
 		if (Math.abs(dx)>Math.abs(dy))
-			if(dx>0)
+			if(dx>0.2)
 				this.x-=speed*Delta();
 			else
 				this.x+=speed*Delta();
 		else
-			if(dy>0)
+			if(dy>0.2)
 				this.y-=speed*Delta();
 			else
 				this.y+=speed*Delta();
