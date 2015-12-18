@@ -93,7 +93,6 @@ public class Enemy {
 			Die();
 			return;
 		}
-		speed=11;
 		if (Math.abs(dx)>Math.abs(dy))
 			if(dx>0)
 				this.x-=speed*Delta();

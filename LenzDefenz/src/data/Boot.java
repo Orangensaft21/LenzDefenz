@@ -27,7 +27,7 @@ public class Boot {
 			{2,2,2,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
 			{2,2,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
 			{1,1,1,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
-			{2,2,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
+			{0,2,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
 			{0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
@@ -48,23 +48,15 @@ public class Boot {
 		
 		grid = new TileGrid(map);
 		//TileBasedMap sd = new TileGrid(map);
-		Enemy e = new Enemy(QuickLoad("ufo"),grid.getTile(0,2),64,64,4);
-		Wave wave = new Wave((float)22,e);
-		Player player = new Player(grid);
+
 		
-		
-		
-		
+		Game game = new Game();
 		
 		while(!Display.isCloseRequested()){
 			Clock.update();
-			grid.Draw();
-			//finder = new AStarPathFinder(sd, 500, false);
-			wave.update();
-			player.update();
+			game.update();
 			Display.update();
 			Display.sync(60);
-			//finder.findPath(new UnitMover(2), 0, 2, map[0].length-1, map.length-1);
 			
 			
 		}
