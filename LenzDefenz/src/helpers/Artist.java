@@ -50,6 +50,14 @@ public class Artist {
 	}
 	
 	
+	public static boolean checkCollision(float x1, float y1, float width1, float height1,
+										 float x2, float y2, float width2, float height2){
+		
+		if (x1 + width1 > x2 && x1 < x2+width2 && y1 +height1 > y2 && y1 < y2 + height2)
+			return true;
+		return false;
+	}
+	
 	public static void DrawQuad(float x, float y, float width, float height){
 		glBegin(GL_QUADS);
 		glVertex2f(x,y);
@@ -95,7 +103,11 @@ public class Artist {
 		
 	}
 	
+	
 	public static Texture LoadTexture(String path, String filetype){
+		
+		
+		
 		Texture tex = null;
 		InputStream in = ResourceLoader.getResourceAsStream(path);
 		try {
@@ -106,7 +118,14 @@ public class Artist {
 		return tex;
 	}
 	
+	private static Texture bullet = null;
+	
 	public static Texture QuickLoad(String name){
+		if (name.equals("bullet"))			
+			if (bullet==null)
+				bullet = LoadTexture("res/" + name +".png", "PNG");
+			else return bullet;
+		
 		
 		return LoadTexture("res/" + name +".png", "PNG");
 	}

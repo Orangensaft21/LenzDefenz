@@ -12,6 +12,7 @@ import static helpers.Artist.*;
 import static helpers.Clock.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class Enemy {
@@ -21,9 +22,8 @@ public class Enemy {
 	Texture texture;
 	private Tile startTile;
 	private boolean first = true, alive =true;								//wenn der erste gegner geupdatet wird ist delta riesig
-	static private TileBasedMap sd;
 	private TileGrid grid;
-	
+	private TileBasedMap sd;
 	private int pathStatus;	                                    //wieviele Stufe im Path ist der Mob
 	private Step target;
 	private double dist;
@@ -33,24 +33,27 @@ public class Enemy {
 	 * Liste von allen gegnern
 	 */
 	public static ArrayList<Enemy> enemies;
+	/*
+	 * Enemy id
+	 */
+	private static int enemyID=0;
 	
 	static public AStarPathFinder pf;
 	static public Path path;
 	
-	public Enemy(Texture texture, Tile startTile, int width, int height ,float speed){
+	public Enemy(Texture texture, Tile startTile, int width, int height ,float speed, int health){
 		this.texture=texture;
 		this.x=startTile.getX();
 		this.y=startTile.getY();
 		this.width=width;
 		this.height=height;
+		this.health=health;
 		this.speed=speed;
 		this.startTile = startTile;
 		this.pathStatus=0;
 		
-		
-		
-		if (this.sd == null)
-			this.sd= new TileGrid(Boot.map);
+		if (this.sd==null)
+			this.sd = (TileBasedMap) Boot.grid;
 		
 		this.grid =Boot.grid;
 		//test
@@ -67,13 +70,14 @@ public class Enemy {
 			enemies = new ArrayList<Enemy>();
 		}
 		enemies.add(this);
+		enemyID++;
 	}	
 	
 	/*
 	 * enemy laufen
 	 */
 	
-	
+	private int EnemyDeleteOptimieren;
 
 
 	public void update(){
@@ -86,7 +90,22 @@ public class Enemy {
 			return;
 		}
 		
-		
+		/*
+		 * soll nur einmal pro sekunde die enemylist aufräumen
+		 * nicht elegant, geht bestimmt einfacher
+		 * 
+		 * und er soll das keine 60mal pro sek machen!
+		 */
+		EnemyDeleteOptimieren=-1;
+		for (Enemy e : enemies){
+			if (!e.isAlive()){
+				EnemyDeleteOptimieren=enemies.indexOf(e);
+				e=null;
+				break;
+			}
+		}
+		if (!(EnemyDeleteOptimieren ==-1))
+			enemies.remove(EnemyDeleteOptimieren);
 		
 		//check ob finished
 		if (target.getX()==19&&target.getY()==14){
@@ -126,6 +145,12 @@ public class Enemy {
 	
 	private void Die(){
 		alive = false;
+	}
+	
+	public void Damage(int amount){
+		health-=amount;
+		if (health<=0)
+			Die();
 	}
 	
 	public void Draw(){
@@ -214,6 +239,20 @@ public class Enemy {
 	
 	public boolean isAlive(){
 		return alive;
+	}
+
+
+	public static synchronized ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
+
+	public static synchronized void removeEnemy(Enemy e) {
+		enemies.remove(e);
+	}
+	
+	public int getID(){
+		return enemyID;
 	}
 	
 }

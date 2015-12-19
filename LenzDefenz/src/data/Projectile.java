@@ -1,14 +1,17 @@
 package data;
 
+import static helpers.Artist.DrawQuadTex;
+import static helpers.Artist.checkCollision;
+import static helpers.Clock.Delta;
+
 import org.newdawn.slick.opengl.Texture;
-import static helpers.Clock.*;
-import static helpers.Artist.*;
 
 public class Projectile {
 	private Texture texture;
-	private float x,y,speed,xSpeed,ySpeed;
+	private float x,y,speed,xSpeed,ySpeed,width, height;
 	private int damage;
 	private Enemy target;
+	private boolean alive;
 	
 	public Projectile(Texture tex, float x, float y, float speed, int damage, Enemy target){
 		this.x=x;
@@ -23,7 +26,10 @@ public class Projectile {
 			xSpeed *= -1;
 		if (target.getY()< y)
 			ySpeed *= -1;
+		this.alive=true;
 		calcDirection();	//für zielsuchende geschosse ins update machen
+		width = tex.getWidth();
+		height = tex.getHeight();
 	}
 	
 	/* 
@@ -41,9 +47,17 @@ public class Projectile {
 	}
 	
 	public void update(){
-		x += xSpeed*Delta()*speed;
-		y += ySpeed*Delta()*speed;
-		Draw();
+		if (alive){
+			x += xSpeed*Delta()*speed;
+			y += ySpeed*Delta()*speed;
+			Draw();
+			if (checkCollision(x,y,width,height,target.getX(),
+							 target.getY(), target.getWidth(),target.getHeight())){
+				System.out.println("Kugel trifft");
+				target.Damage(damage);
+				alive = false;
+			}
+		}	
 		// speed test
 		//System.out.println(Math.sqrt(xSpeed*Delta()*speed*xSpeed*Delta()*speed+ySpeed*Delta()*speed*ySpeed*Delta()*speed));
 	}

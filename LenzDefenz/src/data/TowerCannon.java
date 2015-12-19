@@ -17,7 +17,6 @@ public class TowerCannon {
 	private Texture baseTexture, cannonTexture;
 	private Tile startTile;
 	private ArrayList<Projectile> projectiles;
-	private ArrayList<Enemy> enemies;
 	private Enemy target;
 	
 	//Sound
@@ -26,7 +25,7 @@ public class TowerCannon {
 	//Pojectile Hilfe
 	int projOutOfArea = -1;
 	
-	public TowerCannon(Texture texture, Tile startTile, int damage,ArrayList<Enemy> enemies){
+	public TowerCannon(Texture texture, Tile startTile, int damage){
 		this.x=startTile.getX();
 		this.y=startTile.getY();
 		this.startTile = startTile;
@@ -35,10 +34,9 @@ public class TowerCannon {
 		this.damage = damage;
 		this.width = (int) startTile.getWidth();
 		this.height = (int) startTile.getHeight();
-		this.firingSpeed =1f;
+		this.firingSpeed =1.5f;
 		this.timeSinceLastShot=0;
 		this.projectiles = new ArrayList<Projectile>();
-		this.enemies=enemies;
 		this.target=acquireTarget();
 		this.angle = calcAngle();
 		
@@ -54,9 +52,16 @@ public class TowerCannon {
 	}
 	
 	private Enemy acquireTarget(){
-		return enemies.get(0);
+		/*for (Enemy e:Enemy.getEnemies()){
+			if (e.isAlive()){
+				return e;
+			}	
+		}*/
+		
+		
+		return Enemy.getEnemies().get(1);
 	}
-	
+		
 	private float calcAngle(){
 		double angleTemp = Math.atan2(target.getY()-y, target.getX()-x);
 		return (float) Math.toDegrees(angleTemp) -90;
@@ -72,11 +77,10 @@ public class TowerCannon {
 			
 			if (target.isAlive()){
 				Shoot();
-				System.out.println(Enemy.enemies.size());
+				//System.out.println(Enemy.enemies.size());
 			}
 			else
-				Enemy.enemies.remove(target);						// Mob löschen  besser woanders hinmachen
-				target = Enemy.enemies.get(Enemy.enemies.size()-1);
+				target = acquireTarget();
 		}
 		
 		for (Projectile p:projectiles){
@@ -87,7 +91,9 @@ public class TowerCannon {
 			}
 		}
 		if (projOutOfArea!=-1){
+			Projectile p=projectiles.get(projOutOfArea);
 			projectiles.remove(projOutOfArea);
+			p=null;
 			projOutOfArea=-1;
 		}
 		angle = calcAngle();
@@ -100,6 +106,7 @@ public class TowerCannon {
 	}
 	
 	public void Shoot(){
+		//System.out.println(target.getID());
 		timeSinceLastShot = 0;
 		projectiles.add(new Projectile(QuickLoad("bullet"),x+Game.TILE_SIZE/2-Game.TILE_SIZE/4,
 									   y+Game.TILE_SIZE/2-Game.TILE_SIZE/4,911,12,target));

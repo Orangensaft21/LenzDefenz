@@ -8,11 +8,14 @@ import pathfinding.TileBasedMap;
 public class TileGrid implements TileBasedMap{
 	
 	public Tile[][] map;
+	private int tilesWide, tilesHigh;
 	
 	/** Indicator if a given tile has been visited during the search */
 	private boolean[][] visited = new boolean[WIDTH][HEIGHT];
 	
 	public TileGrid(){												//Default Konstruktor macht alles zu grass
+		this.tilesHigh=15;
+		this.tilesWide=20;
 		map = new Tile[20][15];
 		for(int i=0;i < map.length;i++)
 			for(int j=0;j<map[i].length;j++){
@@ -20,6 +23,8 @@ public class TileGrid implements TileBasedMap{
 			}
 	}
 	public TileGrid(int[][] newMap){
+		this.tilesHigh=15;
+		this.tilesWide=20;
 		map = new Tile[20][15];
 		for(int i=0;i < map.length;i++)
 			for(int j=0;j<map[i].length;j++){
@@ -100,6 +105,18 @@ public class TileGrid implements TileBasedMap{
 	public float getCost(Mover mover, int sx, int sy, int tx, int ty) {
 		// TODO Auto-generated method stub
 		return 1;
+	}
+	public int getTilesWide() {
+		return tilesWide;
+	}
+	public void setTilesWide(int tilesWide) {
+		this.tilesWide = tilesWide;
+	}
+	public int getTilesHigh() {
+		return tilesHigh;
+	}
+	public void setTilesHigh(int tilesHigh) {
+		this.tilesHigh = tilesHigh;
 	}
 	
 	

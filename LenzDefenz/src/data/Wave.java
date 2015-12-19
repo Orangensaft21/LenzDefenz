@@ -43,10 +43,13 @@ public class Wave {
 			}
 		}
 	}
-
+	/*
+	 * der wavemanager soll nen enemy übergeben
+	 */
+	
 	private void Spawn() {
 		// System.out.println("spawn");
-		enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), 64, 64, enemyType.getSpeed()));
+		enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), 64, 64, enemyType.getSpeed(),enemyType.getHealth()));
 		enemiesSpawned++;
 	}
 	

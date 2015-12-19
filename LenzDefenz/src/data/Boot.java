@@ -5,6 +5,8 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
 import helpers.Clock;
+import helpers.GameManager;
+import helpers.Leveler;
 import pathfinding.AStarPathFinder;
 import pathfinding.Path;
 import pathfinding.PathFinder;
@@ -23,7 +25,7 @@ public class Boot {
 	/** The y coordinate of the target of the last path we searched for - used to cache and prevent constantly re-searching */
 	private int lastFindY = -1;
 
-	public static int[][] map = {
+	/*public static int[][] map = {
 			{2,2,2,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
 			{2,2,0,0,0,0,1,2,2,2,1,0,0,0,0,0,0,0,0,0},
 			{1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
@@ -39,21 +41,22 @@ public class Boot {
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1},
-	};
+	};*/
 	public static TileGrid grid;
 	
 	Boot(){
 		
 		BeginSession();
 		//TileBasedMap sd = new TileGrid(map);
-		grid = new TileGrid(map);
+		grid = Leveler.loadMap("LenzMap1");
 		
 		
-		Game game = new Game();
+		//Game game = new Game();
 		
 		while(!Display.isCloseRequested()){
 			Clock.update();
-			game.update();
+			//game.update();
+			GameManager.update();
 			Display.update();
 			Display.sync(60);
 			
@@ -69,8 +72,6 @@ public class Boot {
 
 	}
 	
-	public int[][] getMap(){
-		return map;
-	}
+	
 
 }
