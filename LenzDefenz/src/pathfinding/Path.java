@@ -91,6 +91,10 @@ public class Path {
 		return steps.contains(new Step(x,y));
 	}
 	
+	public ArrayList<Step> getSteps(){
+		return steps;
+	}
+	
 	/**
 	 * A single step within the path
 	 * 

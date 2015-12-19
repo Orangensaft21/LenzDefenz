@@ -53,7 +53,8 @@ public class Player {
 		//Tastatur input
 		while (Keyboard.next()){
 			if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT && Keyboard.getEventKeyState()){
-				Clock.changeMultiplier(0.2f);;
+				MoveIndex();
+				//Clock.changeMultiplier(0.2f);;
 			}
 			if (Keyboard.getEventKey() == Keyboard.KEY_LEFT && Keyboard.getEventKeyState()){
 				Clock.changeMultiplier(-0.2f);;

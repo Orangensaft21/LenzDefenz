@@ -35,7 +35,7 @@ public class TowerCannon {
 		this.damage = damage;
 		this.width = (int) startTile.getWidth();
 		this.height = (int) startTile.getHeight();
-		this.firingSpeed =1;
+		this.firingSpeed =1f;
 		this.timeSinceLastShot=0;
 		this.projectiles = new ArrayList<Projectile>();
 		this.enemies=enemies;
@@ -70,8 +70,13 @@ public class TowerCannon {
 		timeSinceLastShot += Delta();
 		if (timeSinceLastShot > firingSpeed){
 			
-			Shoot();
-			System.out.println(projectiles.size());
+			if (target.isAlive()){
+				Shoot();
+				System.out.println(Enemy.enemies.size());
+			}
+			else
+				Enemy.enemies.remove(target);						// Mob löschen  besser woanders hinmachen
+				target = Enemy.enemies.get(Enemy.enemies.size()-1);
 		}
 		
 		for (Projectile p:projectiles){

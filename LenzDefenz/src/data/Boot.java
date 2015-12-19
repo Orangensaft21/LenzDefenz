@@ -22,11 +22,11 @@ public class Boot {
 	private int lastFindX = -1;
 	/** The y coordinate of the target of the last path we searched for - used to cache and prevent constantly re-searching */
 	private int lastFindY = -1;
-	
+
 	public static int[][] map = {
 			{2,2,2,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
-			{2,2,2,0,0,0,1,2,2,2,1,0,0,0,0,0,0,0,0,0},
-			{1,1,1,1,0,0,1,2,2,0,1,0,0,0,0,0,0,0,0,0},
+			{2,2,0,0,0,0,1,2,2,2,1,0,0,0,0,0,0,0,0,0},
+			{1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
 			{2,2,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
 			{2,2,0,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,2,2,2,1,0,0,0,0,0,0,0,0,0},
@@ -45,10 +45,9 @@ public class Boot {
 	Boot(){
 		
 		BeginSession();
-		
-		grid = new TileGrid(map);
 		//TileBasedMap sd = new TileGrid(map);
-
+		grid = new TileGrid(map);
+		
 		
 		Game game = new Game();
 		
@@ -68,6 +67,10 @@ public class Boot {
 		
 		new Boot();
 
+	}
+	
+	public int[][] getMap(){
+		return map;
 	}
 
 }

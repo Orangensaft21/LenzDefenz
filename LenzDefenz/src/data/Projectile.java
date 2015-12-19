@@ -26,15 +26,17 @@ public class Projectile {
 		calcDirection();	//für zielsuchende geschosse ins update machen
 	}
 	
+	/* 
+	 * müsste jetzt alles passen.
+	 */
+	
 	private void calcDirection(){
-		float totalAllowedMovement = 1.0f;
-		float xDistanceFromTarget = Math.abs(target.getX() -x-Game.TILE_SIZE/4+ Game.TILE_SIZE/2);
-		float yDistanceFromTarget = Math.abs(target.getY() -y-Game.TILE_SIZE/4+ Game.TILE_SIZE/2);
-		//stimmt natürlich geometrisch nicht
-		float totalDistanceFromTarget = xDistanceFromTarget+yDistanceFromTarget;
-		float xPercentOfMovement = xDistanceFromTarget/totalDistanceFromTarget;
-		xSpeed = xPercentOfMovement;
-		ySpeed = totalAllowedMovement - xPercentOfMovement;
+		float xDistanceFromTarget = target.getX() -x + Game.TILE_SIZE/2 - Game.TILE_SIZE/4;
+		float yDistanceFromTarget = target.getY() -y + Game.TILE_SIZE/2 - Game.TILE_SIZE/4;
+		
+		float betrag = (float) Math.sqrt(xDistanceFromTarget*xDistanceFromTarget+yDistanceFromTarget*yDistanceFromTarget);
+		xSpeed=xDistanceFromTarget/betrag;
+		ySpeed=yDistanceFromTarget/betrag;
 		
 	}
 	
@@ -42,6 +44,8 @@ public class Projectile {
 		x += xSpeed*Delta()*speed;
 		y += ySpeed*Delta()*speed;
 		Draw();
+		// speed test
+		//System.out.println(Math.sqrt(xSpeed*Delta()*speed*xSpeed*Delta()*speed+ySpeed*Delta()*speed*ySpeed*Delta()*speed));
 	}
 	public void Draw(){
 		DrawQuadTex(texture,x,y,32,32);

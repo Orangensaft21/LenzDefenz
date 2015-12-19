@@ -93,7 +93,7 @@ public class TileGrid implements TileBasedMap{
 			//System.out.println(Math.floor(map[x][y].getX()/64)+"y"+Math.floor(map[x][y].getY()/64)+"grass");
 			return false;
 		}
-		System.out.println(x+","+y+"dirt");
+		System.out.println(x+","+y+map[x][y].getType().textureName);
 		return true;
 	}
 	@Override
