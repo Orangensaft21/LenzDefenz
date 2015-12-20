@@ -6,6 +6,9 @@ import static helpers.Clock.*;
 
 
 
+
+
+
 public class Game {
 	
 	public static final int TILE_SIZE = 64;
@@ -15,13 +18,17 @@ public class Game {
 	private WaveManager waveManager;
 	
 	//Temp variables
-
+	
 	
 	public Game(){
 		grid = Boot.grid;
 		waveManager = new WaveManager(new Enemy(QuickLoad("ufo"),grid.getTile(0,2) ,64,64,93,1000),
 				0.5f,5);
 		player = new Player(grid, waveManager);
+		
+		
+		//testen schrift
+		
 
 	}
 	
@@ -30,6 +37,7 @@ public class Game {
 		waveManager.update();
 		player.update();
 		//System.out.println(Delta());
+		
 
 	}
 	

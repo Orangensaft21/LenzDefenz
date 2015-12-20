@@ -1,7 +1,11 @@
 package data;
 
 import static helpers.Artist.BeginSession;
+
+import java.awt.Font;
+
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
 import helpers.Clock;
@@ -11,7 +15,12 @@ import pathfinding.AStarPathFinder;
 import pathfinding.Path;
 import pathfinding.PathFinder;
 import pathfinding.TileBasedMap;
-
+// test font
+import java.awt.Font;
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
+// ende test font
 import static helpers.Artist.*;
 
 public class Boot {
@@ -44,6 +53,8 @@ public class Boot {
 	};*/
 	public static TileGrid grid;
 	
+	TrueTypeFont font;
+	
 	Boot(){
 		
 		BeginSession();
@@ -52,15 +63,20 @@ public class Boot {
 		
 		
 		//Game game = new Game();
-		
+
+		TextRenderer textRenderer;
+		//textRenderer = new TextRenderer("Times new Roman", 32, 32);
 		while(!Display.isCloseRequested()){
 			Clock.update();
-			//game.update();
+
+			
+
+			//TextRenderer.drawString("HELLO", 0, 0, 1, 1f, 1f, 1f, TextRenderer.LEFT);
 			GameManager.update();
 			Display.update();
 			Display.sync(60);
 			
-			
+
 		}
 		
 		Display.destroy();

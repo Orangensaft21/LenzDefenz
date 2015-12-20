@@ -53,7 +53,7 @@ public class Projectile {
 			Draw();
 			if (checkCollision(x,y,width,height,target.getX(),
 							 target.getY(), target.getWidth(),target.getHeight())){
-				System.out.println("Kugel trifft");
+				//System.out.println("Kugel trifft");
 				target.Damage(damage);
 				alive = false;
 			}

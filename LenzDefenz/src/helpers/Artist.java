@@ -47,6 +47,11 @@ public class Artist {
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
+		// test
+		//glEnable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
+		//
+
 	}
 	
 	
