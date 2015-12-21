@@ -32,7 +32,9 @@ public class Player {
 		
 		//Maus input
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown ){
-			towerList.add(new TowerCannon(QuickLoad("cannonBase"),grid.getTile(getMouseX()/zoomFactor,getMouseY()/zoomFactor),10));
+			Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
+			if (tile.getType().buildable)
+				towerList.add(new TowerCannon(QuickLoad("cannonBase"),tile,10));
 		}
 		//if (Mouse.isButtonDown(1) && !rightMouseButtonDown)
 			//SetTile();
@@ -48,8 +50,22 @@ public class Player {
 		if (Mouse.hasWheel())
 			zoomWithMouseWheel(Mouse.getDWheel());
 		
-		
 		//Tastatur input
+		/*
+		 * Beim scrollen bitte nur faktoren von 2 verwenden
+		 */
+		if (Keyboard.isKeyDown(Keyboard.KEY_D)){
+			scrollMap(8,0);
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_A)){
+			scrollMap(-8,0);
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_S)){
+			scrollMap(0,8);
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_W)){
+			scrollMap(0,-8);
+		}
 		while (Keyboard.next()){
 			if (Keyboard.getEventKey() == Keyboard.KEY_LEFT && Keyboard.getEventKeyState()){
 				Clock.changeMultiplier(-0.2f);;
@@ -57,28 +73,38 @@ public class Player {
 			if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT && Keyboard.getEventKeyState()){
 				Clock.changeMultiplier(-0.2f);
 			}
+			// scroll test
 		}
 	}
 	
-	public int zoomWithMouseWheel(int wheel){
+	
+	/*public Tile getTileFromMouse(){
+		return grid.getTile(getMouseX()/totalZoom+(int)Math.floor(left/(totalZoom*64)),getMouseY()/totalZoom+top/(totalZoom*64));
+		
+		//return null;
+		
+	}*/
+	
+	public void zoomWithMouseWheel(int wheel){
 		if (wheel>0){
-			zoomFactor += 0.5f;
-			zoom();
+			zoom(0.5f);
 		}
 		if (wheel<0){
 			System.out.println("down");
-			zoomFactor -= 0.5f;
-			zoom();
+			zoom(-0.5f);
 		}
-		return 0;
 	}
 	
+	/*
+	 * funktion macht bei krummen zooms noch probleme
+	 */
+	
 	public int getMouseX(){
-		return (int)Math.floor(Mouse.getX()/64);
+		return (int)((Mouse.getX()+left*totalZoom)/64);
 	}
 	
 	public int getMouseY(){
-		return (int)Math.floor((HEIGHT -Mouse.getY()-1)/64);
+		return (int) ((HEIGHT -Mouse.getY()-1*totalZoom+top*totalZoom)/64);
 	}
 	
 }

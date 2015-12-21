@@ -47,7 +47,9 @@ public class Boot {
 	TrueTypeFont font;
 	
 	Boot(){
-		helpers.Artist.zoomFactor=1f;
+		helpers.Artist.totalZoom=1f;
+		helpers.Artist.left=0;
+		helpers.Artist.top=0;
 		BeginSession();
 		
 		//TileBasedMap sd = new TileGrid(map);

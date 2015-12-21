@@ -33,13 +33,18 @@ public class Artist {
 	
 	public static final int WIDTH = 1280, HEIGHT = 960;
 	
-	/* zoo, Faktor */
-	public static float zoomFactor;
+	/* zoom Faktor */
+	public static float totalZoom;
+	/* x Koordinate zum scrollen */
+	public static int left;
+	/* y Koordinate zum scrollen */
+	public static int top;
 	
 	public static void BeginSession(){
 		Display.setTitle("Lenz Defenz");
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
+			Display.setVSyncEnabled(true);
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
@@ -47,7 +52,7 @@ public class Artist {
 		
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0,WIDTH/zoomFactor,HEIGHT/zoomFactor,0,-1,1);
+		glOrtho(0,WIDTH/totalZoom,HEIGHT/totalZoom,0,-1,1);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		//glOrtho(0,WIDTH/2f,HEIGHT/2f,0,-1,1);
@@ -60,13 +65,64 @@ public class Artist {
 		//
 
 	}
-	public static void zoom(){
+	/*
+	 * funktion die in die Karte zoomt
+	 */
+	
+	public static void zoom(float zoomFactor){
+		if (totalZoom+zoomFactor <1)
+			return;
+		totalZoom += zoomFactor;
+		// zurückscrollen
+		if (left+WIDTH/totalZoom>=WIDTH)
+			//left=0;
+			left = WIDTH - (int) Math.floor(WIDTH/totalZoom);
+		if (top+HEIGHT/totalZoom>=HEIGHT)
+			//top=0;
+			top = HEIGHT - (int) Math.floor(HEIGHT/totalZoom);
+		
+		
+		/*glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(left,WIDTH/totalZoom,HEIGHT/totalZoom,top,-1,1);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();*/
+		
+		scrollMap(0,0);
+		// falls tiefer reingezoomed
+		scrollMap(-32,-32);
+	}
+	
+	/*
+	 * funktion zum scrollen
+	 */
+	public static void scrollMap(int xDirect, int yDirect){
+		/*
+		 * wenn man verucht links oder oben rauszuscrollen
+		 */
+		if (left +xDirect<0 || top +yDirect <0 )
+			return;
+		/*
+		 * wenn man versucht rechts oder unten rauszuscrollen
+		 */
+		if (left+xDirect+WIDTH/totalZoom>WIDTH)
+			return;
+		/*if (top+yDirect+HEIGHT/totalZoom>=HEIGHT){
+			top = (int) (HEIGHT/totalZoom);
+		}else*/
+		if (top+yDirect+HEIGHT/totalZoom>HEIGHT)
+			return;
+		top  += yDirect;
+		
+		left += xDirect;
+		
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0,WIDTH/zoomFactor,HEIGHT/zoomFactor,0,-1,1);
+		glOrtho(left,(WIDTH/totalZoom)+left,(HEIGHT/totalZoom)+top,top,-1,1);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 	}
+	
 	
 	public static boolean checkCollision(float x1, float y1, float width1, float height1,
 										 float x2, float y2, float width2, float height2){
