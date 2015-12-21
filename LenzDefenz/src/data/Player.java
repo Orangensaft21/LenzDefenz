@@ -32,14 +32,23 @@ public class Player {
 		
 		//Maus input
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown ){
-			towerList.add(new TowerCannon(QuickLoad("cannonBase"),grid.getTile(getMouseX(),getMouseY()),10));
+			towerList.add(new TowerCannon(QuickLoad("cannonBase"),grid.getTile(getMouseX()/zoomFactor,getMouseY()/zoomFactor),10));
 		}
 		//if (Mouse.isButtonDown(1) && !rightMouseButtonDown)
 			//SetTile();
-		
-		
+		/*keine Hilfsvariablen die nach dem ersten
+		 * Mausklick auf true gesetzt werden um Mehrfachklicks
+		 * zu vermeiden
+		 */
 		leftMouseButtonDown=Mouse.isButtonDown(0);
 		rightMouseButtonDown=Mouse.isButtonDown(1);
+		/*
+		 * zoomen
+		 */
+		if (Mouse.hasWheel())
+			zoomWithMouseWheel(Mouse.getDWheel());
+		
+		
 		//Tastatur input
 		while (Keyboard.next()){
 			if (Keyboard.getEventKey() == Keyboard.KEY_LEFT && Keyboard.getEventKeyState()){
@@ -51,6 +60,18 @@ public class Player {
 		}
 	}
 	
+	public int zoomWithMouseWheel(int wheel){
+		if (wheel>0){
+			zoomFactor += 0.5f;
+			zoom();
+		}
+		if (wheel<0){
+			System.out.println("down");
+			zoomFactor -= 0.5f;
+			zoom();
+		}
+		return 0;
+	}
 	
 	public int getMouseX(){
 		return (int)Math.floor(Mouse.getX()/64);

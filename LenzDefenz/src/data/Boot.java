@@ -25,15 +25,6 @@ import static helpers.Artist.*;
 
 public class Boot {
 	
-	/** The path finder we'll use to search our map */
-	private PathFinder finder;
-	/** The last path found for the current unit */
-	private Path path;
-	/** The x coordinate of the target of the last path we searched for - used to cache and prevent constantly re-searching */
-	private int lastFindX = -1;
-	/** The y coordinate of the target of the last path we searched for - used to cache and prevent constantly re-searching */
-	private int lastFindY = -1;
-
 	/*public static int[][] map = {
 			{2,2,2,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
 			{2,2,0,0,0,0,1,2,2,2,1,0,0,0,0,0,0,0,0,0},
@@ -56,8 +47,9 @@ public class Boot {
 	TrueTypeFont font;
 	
 	Boot(){
-		
+		helpers.Artist.zoomFactor=1f;
 		BeginSession();
+		
 		//TileBasedMap sd = new TileGrid(map);
 		grid = Leveler.loadMap("LenzMap1");
 		

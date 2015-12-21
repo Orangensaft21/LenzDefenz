@@ -47,8 +47,9 @@ public class TileGrid implements TileBasedMap{
 		map[xCoord][yCoord] = new Tile(xCoord*64,yCoord*64,64,64,type);
 	}
 	
-	public Tile getTile(int xCoord, int yCoord){
-		return map[xCoord][yCoord];
+	public Tile getTile(float xCoord, float yCoord){
+		
+		return map[(int) xCoord][(int) yCoord];
 	}
 	
 	public void Draw(){

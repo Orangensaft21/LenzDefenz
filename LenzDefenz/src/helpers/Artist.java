@@ -20,16 +20,21 @@ import java.io.InputStream;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import data.Boot;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class Artist {
 	
 	public static final int WIDTH = 1280, HEIGHT = 960;
+	
+	/* zoo, Faktor */
+	public static float zoomFactor;
 	
 	public static void BeginSession(){
 		Display.setTitle("Lenz Defenz");
@@ -42,8 +47,10 @@ public class Artist {
 		
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0,WIDTH,HEIGHT,0,1,-1);
+		glOrtho(0,WIDTH/zoomFactor,HEIGHT/zoomFactor,0,-1,1);
 		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		//glOrtho(0,WIDTH/2f,HEIGHT/2f,0,-1,1);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -53,7 +60,13 @@ public class Artist {
 		//
 
 	}
-	
+	public static void zoom(){
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0,WIDTH/zoomFactor,HEIGHT/zoomFactor,0,-1,1);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+	}
 	
 	public static boolean checkCollision(float x1, float y1, float width1, float height1,
 										 float x2, float y2, float width2, float height2){
