@@ -13,6 +13,7 @@ import static helpers.Clock.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class Enemy {
@@ -32,7 +33,7 @@ public class Enemy {
 	/*
 	 * Liste von allen gegnern
 	 */
-	public static ArrayList<Enemy> enemies;
+	public static CopyOnWriteArrayList<Enemy> enemies;
 	/*
 	 * Enemy id
 	 */
@@ -58,16 +59,12 @@ public class Enemy {
 		this.grid =Boot.grid;
 		//test
 		if (path==null){
-			pf = new AStarPathFinder(sd, 500, false);
-			path=pf.findPath(new UnitMover(2), 0, 2, sd.getWidthInTiles()-1, sd.getHeightInTiles()-1);
-			for (Step s:path.getSteps())
-				System.out.println(s.toString());
-			
+			findPath();
 		}
 		this.target=path.getStep(0);
 		
 		if (enemies==null){
-			enemies = new ArrayList<Enemy>();
+			enemies = new CopyOnWriteArrayList<Enemy>();
 		}
 		enemies.add(this);
 		enemyID++;
@@ -75,10 +72,7 @@ public class Enemy {
 	
 	/*
 	 * enemy laufen
-	 */
-	
-	private int EnemyDeleteOptimieren;
-
+	 */	
 
 	public void update(){
 		/*
@@ -91,21 +85,15 @@ public class Enemy {
 		}
 		
 		/*
-		 * soll nur einmal pro sekunde die enemylist aufräumen
-		 * nicht elegant, geht bestimmt einfacher
-		 * 
-		 * und er soll das keine 60mal pro sek machen!
+		 * enemy list aufräumen 
 		 */
-		EnemyDeleteOptimieren=-1;
 		for (Enemy e : enemies){
 			if (!e.isAlive()){
-				EnemyDeleteOptimieren=enemies.indexOf(e);
-				e=null;
+				enemies.remove(e);
 				break;
 			}
 		}
-		if (!(EnemyDeleteOptimieren ==-1))
-			enemies.remove(EnemyDeleteOptimieren);
+		
 		
 		//check ob finished
 		if (target.getX()==19&&target.getY()==14){
@@ -140,6 +128,14 @@ public class Enemy {
 		
 		
 			
+	}
+	
+	public void findPath(){
+		pf = new AStarPathFinder(sd, 500, false);
+		path=pf.findPath(new UnitMover(2), 0, 2, sd.getWidthInTiles()-1, sd.getHeightInTiles()-1);
+		for (Step s:path.getSteps())
+			System.out.println(s.toString());
+		
 	}
 	
 	
@@ -242,7 +238,7 @@ public class Enemy {
 	}
 
 
-	public static synchronized ArrayList<Enemy> getEnemies() {
+	public static synchronized CopyOnWriteArrayList<Enemy> getEnemies() {
 		return enemies;
 	}
 

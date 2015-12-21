@@ -5,6 +5,7 @@ import static helpers.Clock.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
@@ -16,7 +17,7 @@ public class TowerCannon {
 	private int width, height, damage;
 	private Texture baseTexture, cannonTexture;
 	private Tile startTile;
-	private ArrayList<Projectile> projectiles;
+	private CopyOnWriteArrayList<Projectile> projectiles;
 	private Enemy target;
 	
 	//Sound
@@ -36,7 +37,7 @@ public class TowerCannon {
 		this.height = (int) startTile.getHeight();
 		this.firingSpeed =1.5f;
 		this.timeSinceLastShot=0;
-		this.projectiles = new ArrayList<Projectile>();
+		this.projectiles = new CopyOnWriteArrayList<Projectile>();
 		this.target=acquireTarget();
 		this.angle = calcAngle();
 		
@@ -83,19 +84,13 @@ public class TowerCannon {
 				target = acquireTarget();
 		}
 		
-		for (Projectile p:projectiles){
-			if (p.isOnMap())
+		for (Projectile p:projectiles){											
+			if (!p.isOnMap())												//auch wenn das projektil getroffen hat
+				projectiles.remove(p);
+			else
 				p.update();
-				else{
-					projOutOfArea=projectiles.indexOf(p);
-			}
 		}
-		if (projOutOfArea!=-1){
-			Projectile p=projectiles.get(projOutOfArea);
-			projectiles.remove(projOutOfArea);
-			p=null;
-			projOutOfArea=-1;
-		}
+		
 		angle = calcAngle();
 		Draw();
 	}

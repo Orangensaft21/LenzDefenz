@@ -5,6 +5,7 @@ import static helpers.Artist.checkCollision;
 import static helpers.Clock.Delta;
 
 import org.newdawn.slick.opengl.Texture;
+import static helpers.Artist.*;
 
 public class Projectile {
 	private Texture texture;
@@ -69,7 +70,9 @@ public class Projectile {
 		/*
 		 * range von Tower wäre besser
 		 */
-		if (x>20*Game.TILE_SIZE&&y>15*Game.TILE_SIZE)
+		if (!alive)
+			return false;
+		if (x>WIDTH||y>HEIGHT)
 			return false;
 		return true;
 		

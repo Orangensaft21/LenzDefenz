@@ -45,6 +45,7 @@ public class Artist {
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
 			Display.setVSyncEnabled(true);
+			
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();

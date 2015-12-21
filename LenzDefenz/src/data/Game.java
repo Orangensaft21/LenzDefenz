@@ -26,7 +26,7 @@ public class Game {
 				0.5f,0);
 		player = new Player(grid, waveManager);
 		
-		
+		//
 		//testen schrift
 		
 
