@@ -7,10 +7,10 @@ import static helpers.Clock.Delta;
 import org.newdawn.slick.opengl.Texture;
 import static helpers.Artist.*;
 
-public class Projectile {
+public class Projectile implements Entity{
 	private Texture texture;
-	private float x,y,speed,xSpeed,ySpeed,width, height;
-	private int damage;
+	private float x,y,speed,xSpeed,ySpeed;
+	private int damage,width, height;
 	private Enemy target;
 	private boolean alive;
 	
@@ -29,8 +29,8 @@ public class Projectile {
 			ySpeed *= -1;
 		this.alive=true;
 		calcDirection();	//für zielsuchende geschosse ins update machen
-		width = tex.getWidth();
-		height = tex.getHeight();
+		width = getWidth();
+		height = getHeight();
 	}
 	
 	/* 
@@ -38,8 +38,8 @@ public class Projectile {
 	 */
 	
 	private void calcDirection(){
-		float xDistanceFromTarget = target.getX() -x + Game.TILE_SIZE/2 - Game.TILE_SIZE/4;
-		float yDistanceFromTarget = target.getY() -y + Game.TILE_SIZE/2 - Game.TILE_SIZE/4;
+		float xDistanceFromTarget = target.getX() -x + TILE_SIZE/2 - TILE_SIZE/4;
+		float yDistanceFromTarget = target.getY() -y + TILE_SIZE/2 - TILE_SIZE/4;
 		
 		float betrag = (float) Math.sqrt(xDistanceFromTarget*xDistanceFromTarget+yDistanceFromTarget*yDistanceFromTarget);
 		xSpeed=xDistanceFromTarget/betrag;
@@ -51,7 +51,7 @@ public class Projectile {
 		if (alive){
 			x += xSpeed*Delta()*speed;
 			y += ySpeed*Delta()*speed;
-			Draw();
+			draw();
 			if (checkCollision(x,y,width,height,target.getX(),
 							 target.getY(), target.getWidth(),target.getHeight())){
 				//System.out.println("Kugel trifft");
@@ -62,7 +62,7 @@ public class Projectile {
 		// speed test
 		//System.out.println(Math.sqrt(xSpeed*Delta()*speed*xSpeed*Delta()*speed+ySpeed*Delta()*speed*ySpeed*Delta()*speed));
 	}
-	public void Draw(){
+	public void draw(){
 		DrawQuadTex(texture,x,y,32,32);
 	}
 	
@@ -76,6 +76,41 @@ public class Projectile {
 			return false;
 		return true;
 		
+	}
+
+	public float getX() {
+		// TODO Auto-generated method stub
+		return x;
+	}
+
+	public float getY() {
+		// TODO Auto-generated method stub
+		return y;
+	}
+
+	public int getWidth() {
+		return (int) texture.getWidth();
+	}
+
+	public int getHeight() {
+		return (int) texture.getHeight();
+	}
+
+	public void setX(float x) {
+		this.x=x;
+	}
+
+	public void setY(float y) {
+		this.y=y;
+	}
+
+	public void setWidth(int width) {
+		this.width=width;
+		
+	}
+
+	public void setHeight(int height) {
+		this.height=height;
 	}
 	
 }

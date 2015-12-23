@@ -5,7 +5,7 @@ import org.lwjgl.Sys;
 public class Clock {
 	
 	public static boolean paused = false;
-	public static long lastFrame= getTime(), totalTime;   //fix, lastFrame am Anfang setzen!
+	public static long lastFrame= getTime(),totalTime=0;    //fix, lastFrame am Anfang setzen!
 	public static float d=0, multiplier = 1;
 	
 	public static long getTime(){
@@ -16,8 +16,8 @@ public class Clock {
 		long currentTime = getTime();
 		int delta = (int) (currentTime -lastFrame);
 		lastFrame=getTime();
-		if (delta*0.001f>0.05f)
-			return 0.005f;
+		if (delta>50)
+			return 0.05f;
 		return delta *0.001f;
 	}
 	
@@ -29,7 +29,7 @@ public class Clock {
 	}
 	
 	public static float TotalTime(){
-		return totalTime;
+		return totalTime/1000;
 	}
 	
 	public static float Multiplier(){
@@ -38,7 +38,7 @@ public class Clock {
 	
 	public static void update(){
 		d = getDelta();
-		totalTime += d;
+		totalTime += d*1000;						//*1000 damit beim casten nix abgeschnitten und da totaltime in msec gemessen wird
 	}
 	
 	public static void changeMultiplier(float change){

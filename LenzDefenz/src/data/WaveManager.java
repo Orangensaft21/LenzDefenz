@@ -1,10 +1,8 @@
 package data;
 
-import static helpers.Artist.*;
-import static helpers.Clock.*;
+import static helpers.Clock.Delta;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class WaveManager {
 	
@@ -17,13 +15,18 @@ public class WaveManager {
 	
 	public WaveManager(Enemy enemyType, float timeBetweenEnemies, int enemiesPerWave){
 		this.timeSinceLastWave=0;
-		this.waveNumber = 0;
+		this.waveNumber = 1;
 		this.enemiesPerWave = enemiesPerWave;
 		this.enemyType = enemyType;
 		this.timeBetweenEnemies=timeBetweenEnemies;
 		
 		this.waves = new LinkedList<Wave>();
 		newWave();
+		
+		/*
+		 * muss noch geändert werden
+		 */
+		Enemy.removeEnemy(enemyType);
 	}
 	
 	public void update(){
@@ -41,7 +44,7 @@ public class WaveManager {
 			waves.remove(zwischen);
 		
 		timeSinceLastWave += Delta();
-		if (timeSinceLastWave>10){
+		if (timeSinceLastWave>12){
 			timeSinceLastWave = 0;
 			newWave();
 		}	

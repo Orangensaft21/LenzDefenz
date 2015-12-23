@@ -1,25 +1,23 @@
 package data;
 
+import static helpers.Artist.DrawQuadTex;
+import static helpers.Clock.Delta;
+
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.newdawn.slick.opengl.Texture;
 
 import pathfinding.AStarPathFinder;
 import pathfinding.Path;
 import pathfinding.Path.Step;
-import pathfinding.PathFinder;
 import pathfinding.TileBasedMap;
+import static helpers.Artist.QuickLoad;
+import static helpers.Artist.TILE_SIZE;
 
-import static helpers.Artist.*;
-import static helpers.Clock.*;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-
-public class Enemy {
+public class Enemy implements Entity{
 	
-	private int width,height,health;
-	private float x,y,speed;
+	private int width,height;
+	private float x,y,speed,startHealth,health;
 	Texture texture;
 	private Tile startTile;
 	private boolean first = true, alive =true;								//wenn der erste gegner geupdatet wird ist delta riesig
@@ -29,26 +27,25 @@ public class Enemy {
 	private Step target;
 	private double dist;
 	private boolean finished = false;
+	static Texture healthBack;
+	static Texture healthVorne;
 	
 	/*
 	 * Liste von allen gegnern
 	 */
 	public static CopyOnWriteArrayList<Enemy> enemies;
-	/*
-	 * Enemy id
-	 */
-	private static int enemyID=0;
+	
 	
 	static public AStarPathFinder pf;
 	static public Path path;
 	
-	public Enemy(Texture texture, Tile startTile, int width, int height ,float speed, int health){
+	public Enemy(Texture texture, Tile startTile, int width, int height ,float speed, float health){
 		this.texture=texture;
 		this.x=startTile.getX();
 		this.y=startTile.getY();
 		this.width=width;
 		this.height=height;
-		this.health=health;
+		this.health=health;this.startHealth=health;
 		this.speed=speed;
 		this.startTile = startTile;
 		this.pathStatus=0;
@@ -67,7 +64,11 @@ public class Enemy {
 			enemies = new CopyOnWriteArrayList<Enemy>();
 		}
 		enemies.add(this);
-		enemyID++;
+		if (healthBack==null)
+			healthBack=QuickLoad("healthback");
+		if (healthVorne ==null)
+			healthVorne = QuickLoad("healthtex");
+		
 	}	
 	
 	/*
@@ -149,8 +150,11 @@ public class Enemy {
 			Die();
 	}
 	
-	public void Draw(){
+	public void draw(){
+		float healthProzent= health/startHealth;
 		DrawQuadTex(texture,x,y,width,height);
+		DrawQuadTex(healthBack,x,y-6,width,8);
+		DrawQuadTex(healthVorne,x,y-6,TILE_SIZE*healthProzent,8);		
 	}
 
 	public int getWidth() {
@@ -169,11 +173,11 @@ public class Enemy {
 		this.height = height;
 	}
 
-	public int getHealth() {
+	public float getHealth() {
 		return health;
 	}
 
-	public void setHealth(int health) {
+	public void setHealth(float health) {
 		this.health = health;
 	}
 
@@ -247,8 +251,6 @@ public class Enemy {
 		enemies.remove(e);
 	}
 	
-	public int getID(){
-		return enemyID;
-	}
+	
 	
 }

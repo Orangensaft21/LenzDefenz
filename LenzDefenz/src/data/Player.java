@@ -1,25 +1,32 @@
 package data;
 
+import static helpers.Artist.HEIGHT;
+import static helpers.Artist.TILE_SIZE;
+import static helpers.Artist.left;
+import static helpers.Artist.scrollMap;
+import static helpers.Artist.top;
+import static helpers.Artist.totalZoom;
+import static helpers.Artist.zoom;
+import static helpers.Clock.TotalTime;
+
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import helpers.Clock;
-
-import java.util.ArrayList;
-
-import static helpers.Artist.*;
-
 public class Player {
 
 	private TileGrid grid;
+	@SuppressWarnings("unused")
 	private WaveManager waveManager;
-	private ArrayList<TowerCannon> towerList;
+	private ArrayList<Tower> towerList;
 	private boolean leftMouseButtonDown,rightMouseButtonDown;
 	
 	public Player(TileGrid grid,WaveManager waveManager){
 		this.grid=grid;
 		this.waveManager =waveManager;
-		this.towerList = new ArrayList<TowerCannon>();
+		this.towerList = new ArrayList<Tower>();
 		leftMouseButtonDown = false;
 		rightMouseButtonDown=false;
 	}
@@ -27,14 +34,19 @@ public class Player {
 	
 	
 	public void update(){
-		for (TowerCannon t :towerList)
+		for (Tower t :towerList){
 			t.update();
-		
+		}
 		//Maus input
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown ){
 			Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
-			if (tile.getType().buildable)
-				towerList.add(new TowerCannon(QuickLoad("cannonBase"),tile,10));
+			if (tile.isBuildable()&&TotalTime()>0.2f)
+				buildTower(tile, TowerType.cannonRed);
+		}
+		if (Mouse.isButtonDown(1) && !rightMouseButtonDown ){
+			Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
+			if (tile.isBuildable()&&TotalTime()>0.2f)
+				buildTower(tile, TowerType.slowTower);
 		}
 		//if (Mouse.isButtonDown(1) && !rightMouseButtonDown)
 			//SetTile();
@@ -71,7 +83,7 @@ public class Player {
 				Clock.changeMultiplier(-0.2f);;
 			}
 			if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT && Keyboard.getEventKeyState()){
-				Clock.changeMultiplier(-0.2f);
+				Clock.changeMultiplier(+0.2f);
 			}
 			// scroll test
 		}
@@ -79,7 +91,7 @@ public class Player {
 	
 	
 	/*public Tile getTileFromMouse(){
-		return grid.getTile(getMouseX()/totalZoom+(int)Math.floor(left/(totalZoom*64)),getMouseY()/totalZoom+top/(totalZoom*64));
+		return grid.getTile(getMouseX()/totalZoom+(int)Math.floor(left/(totalZoom*TILE_SIZE)),getMouseY()/totalZoom+top/(totalZoom*TILE_SIZE));
 		
 		//return null;
 		
@@ -90,7 +102,6 @@ public class Player {
 			zoom(0.5f);
 		}
 		if (wheel<0){
-			System.out.println("down");
 			zoom(-0.5f);
 		}
 	}
@@ -100,11 +111,15 @@ public class Player {
 	 */
 	
 	public int getMouseX(){
-		return (int)((Mouse.getX()+left*totalZoom)/64);
+		return (int)((Mouse.getX()+left*totalZoom)/TILE_SIZE);
 	}
 	
 	public int getMouseY(){
-		return (int) ((HEIGHT -Mouse.getY()-1*totalZoom+top*totalZoom)/64);
+		return (int) ((HEIGHT -Mouse.getY()-1*totalZoom+top*totalZoom)/TILE_SIZE);
 	}
 	
+	public void buildTower(Tile tile, TowerType type){
+		towerList.add(new SlowTower(type, tile));
+		tile.setBuildable(false);
+	}
 }

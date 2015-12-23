@@ -1,15 +1,20 @@
 package helpers;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
+import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
@@ -20,18 +25,14 @@ import java.io.InputStream;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import data.Boot;
-
-import static org.lwjgl.opengl.GL11.*;
-
 public class Artist {
 	
 	public static final int WIDTH = 1280, HEIGHT = 960;
+	public static final int TILE_SIZE = 64;
 	
 	/* zoom Faktor */
 	public static float totalZoom;
@@ -43,7 +44,7 @@ public class Artist {
 	public static void BeginSession(){
 		Display.setTitle("Lenz Defenz");
 		try {
-			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
+			Display.setDisplayMode(new DisplayMode((int) (WIDTH/totalZoom),(int) (HEIGHT/totalZoom)));
 			Display.setVSyncEnabled(true);
 			
 			Display.create();

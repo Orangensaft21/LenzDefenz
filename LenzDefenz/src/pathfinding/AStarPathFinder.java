@@ -11,6 +11,7 @@ import java.util.Collections;
  */
 public class AStarPathFinder implements PathFinder {
 	/** The set of nodes that have been searched through */
+	@SuppressWarnings("rawtypes")
 	private ArrayList closed = new ArrayList();
 	/** The set of nodes that we do not yet consider fully searched */
 	private SortedList open = new SortedList();
@@ -235,6 +236,7 @@ public class AStarPathFinder implements PathFinder {
 	 * 
 	 * @param node The node to add to the closed list
 	 */
+	@SuppressWarnings("unchecked")
 	protected void addToClosed(Node node) {
 		closed.add(node);
 	}
@@ -314,6 +316,7 @@ public class AStarPathFinder implements PathFinder {
 	 */
 	private class SortedList {
 		/** The list of elements */
+		@SuppressWarnings("rawtypes")
 		private ArrayList list = new ArrayList();
 		
 		/**
@@ -337,6 +340,7 @@ public class AStarPathFinder implements PathFinder {
 		 * 
 		 * @param o The element to add
 		 */
+		@SuppressWarnings("unchecked")
 		public void add(Object o) {
 			list.add(o);
 			Collections.sort(list);
@@ -374,6 +378,7 @@ public class AStarPathFinder implements PathFinder {
 	/**
 	 * A single node in the search graph
 	 */
+	@SuppressWarnings("rawtypes")
 	private class Node implements Comparable {
 		/** The x coordinate of the node */
 		private int x;

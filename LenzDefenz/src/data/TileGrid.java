@@ -19,7 +19,7 @@ public class TileGrid implements TileBasedMap{
 		map = new Tile[20][15];
 		for(int i=0;i < map.length;i++)
 			for(int j=0;j<map[i].length;j++){
-				map[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);
+				map[i][j] = new Tile(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE,TileType.Grass);
 			}
 	}
 	public TileGrid(int[][] newMap){
@@ -31,20 +31,20 @@ public class TileGrid implements TileBasedMap{
 		
 				switch (newMap[j][i]){
 				case 0:
-					map[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);
+					map[i][j] = new Tile(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE,TileType.Grass);
 					break;
 				case 1:
-					map[i][j] = new Tile(i*64,j*64,64,64,TileType.Dirt);
+					map[i][j] = new Tile(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE,TileType.Dirt);
 					break;
 				case 2:
-					map[i][j] = new Tile(i*64,j*64,64,64,TileType.Water);
+					map[i][j] = new Tile(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE,TileType.Water);
 					break;
 				};
 			}
 	}
 	
 	public void setTile(int xCoord, int yCoord, TileType type){
-		map[xCoord][yCoord] = new Tile(xCoord*64,yCoord*64,64,64,type);
+		map[xCoord][yCoord] = new Tile(xCoord*TILE_SIZE,yCoord*TILE_SIZE,TILE_SIZE,TILE_SIZE,type);
 	}
 	
 	public Tile getTile(float xCoord, float yCoord){
@@ -52,11 +52,11 @@ public class TileGrid implements TileBasedMap{
 		return map[(int) xCoord][(int) yCoord];
 	}
 	
-	public void Draw(){
+	public void draw(){
 		for (int i=0;i<map.length;i++)
 			for (int j=0;j<map[i].length;j++){
 				Tile t = map[i][j];
-				t.Draw();
+				t.draw();
 			}
 	}
 	
@@ -96,7 +96,7 @@ public class TileGrid implements TileBasedMap{
 		
 
 		if (map[x][y].getType().textureName=="dirt"){
-			//System.out.println(Math.floor(map[x][y].getX()/64)+"y"+Math.floor(map[x][y].getY()/64)+"grass");
+			//System.out.println(Math.floor(map[x][y].getX()/TILE_SIZE)+"y"+Math.floor(map[x][y].getY()/TILE_SIZE)+"grass");
 			return false;
 		}
 		System.out.println(x+","+y+map[x][y].getType().textureName);

@@ -1,5 +1,6 @@
 package data;
 
+import static helpers.Artist.TILE_SIZE;
 import java.util.ArrayList;
 
 import static helpers.Clock.*;
@@ -22,7 +23,7 @@ public class Wave {
 		enemiesSpawned=0;
 		
 		completed=false;
-		Spawn();
+		spawn();
 	}
 
 	
@@ -31,14 +32,14 @@ public class Wave {
 		timeSinceLastSpawn += (float) Delta();
 		completed = true;
 		if (timeSinceLastSpawn > spawnTime && enemiesSpawned <= enemiesPerWave) {
-			Spawn();
+			spawn();
 			timeSinceLastSpawn = 0;
 		}
 
 		for (Enemy e : enemyList) {
 			if (e.isAlive()) {
 				e.update();
-				e.Draw();
+				e.draw();
 				completed=false;
 			}
 		}
@@ -47,9 +48,9 @@ public class Wave {
 	 * der wavemanager soll nen enemy übergeben
 	 */
 	
-	private void Spawn() {
+	private void spawn() {
 		// System.out.println("spawn");
-		enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), 64, 64, enemyType.getSpeed(),enemyType.getHealth()));
+		enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), TILE_SIZE, TILE_SIZE, enemyType.getSpeed(),enemyType.getHealth()));
 		enemiesSpawned++;
 	}
 	

@@ -4,6 +4,8 @@ import static helpers.Artist.QuickLoad;
 
 import static helpers.Clock.*;
 
+import helpers.Clock;
+import static helpers.Artist.TILE_SIZE;
 
 
 
@@ -11,21 +13,20 @@ import static helpers.Clock.*;
 
 public class Game {
 	
-	public static final int TILE_SIZE = 64;
+	
 	
 	private TileGrid grid;
 	private Player player;
 	private WaveManager waveManager;
-	
 	//Temp variables
 	
 	
 	public Game(){
 		grid = Boot.grid;
-		waveManager = new WaveManager(new Enemy(QuickLoad("ufo"),grid.getTile(0,2) ,64,64,93,1000),
-				0.5f,0);
+		Enemy enemy = new Enemy(QuickLoad("ufo"),grid.getTile(0,2) ,TILE_SIZE,TILE_SIZE,93,200);
+		waveManager = new WaveManager(enemy,
+				0.5f,8);
 		player = new Player(grid, waveManager);
-		
 		//
 		//testen schrift
 		
@@ -33,12 +34,15 @@ public class Game {
 	}
 	
 	public void update(){
-		grid.Draw();
+		grid.draw();
 		waveManager.update();
 		player.update();
+		Clock.update();
 		//System.out.println(Delta());
+		//System.out.println(TotalTime());
 		if (Delta()>0.02)
 				System.out.println("ruckelruckel");
+		
 
 	}
 	
