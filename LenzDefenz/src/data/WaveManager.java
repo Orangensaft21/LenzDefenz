@@ -3,13 +3,14 @@ package data;
 import static helpers.Clock.Delta;
 
 import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class WaveManager {
 	
 	private float timeSinceLastWave,timeBetweenEnemies;
 	int waveNumber,enemiesPerWave;
 	private Enemy enemyType;
-	private LinkedList<Wave> waves;
+	private CopyOnWriteArrayList<Wave> waves;
 	//parameter merken zum entfernen in der liste
 	int zwischen ;
 	
@@ -20,7 +21,7 @@ public class WaveManager {
 		this.enemyType = enemyType;
 		this.timeBetweenEnemies=timeBetweenEnemies;
 		
-		this.waves = new LinkedList<Wave>();
+		this.waves = new CopyOnWriteArrayList<Wave>();
 		newWave();
 		
 		/*
@@ -32,12 +33,7 @@ public class WaveManager {
 	public void update(){
 		zwischen = -1;
 		for (Wave w: waves){
-			if (w.isCompleted()){
-				//System.out.println(w);
-				zwischen = waves.indexOf(w);
-				//System.out.println(w);
-			}
-			else
+			if (!w.isCompleted())
 				w.update();
 		}
 		if (zwischen != -1)
@@ -51,13 +47,13 @@ public class WaveManager {
 	}
 	
 	public void newWave(){
-		waves.addLast(new Wave(enemyType,timeBetweenEnemies, enemiesPerWave));
+		waves.add(new Wave(enemyType,timeBetweenEnemies, enemiesPerWave));
 		//currentWave = new Wave(enemyType,timeBetweenEnemies, enemiesPerWave); // 20sek für alle waves
 		waveNumber++;
 		System.out.println("Welle:"+ waveNumber);
 	}
 	public Wave getCurrentWave(){
-		return waves.getLast();
+		return waves.get(waves.size());
 	}
 	
 }

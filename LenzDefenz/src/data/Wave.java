@@ -50,7 +50,9 @@ public class Wave {
 	
 	private void spawn() {
 		// System.out.println("spawn");
-		enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), TILE_SIZE, TILE_SIZE, enemyType.getSpeed(),enemyType.getHealth()));
+		//enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), TILE_SIZE, TILE_SIZE, enemyType.getSpeed(),enemyType.getHealth()));
+		
+		enemyList.add(new Enemy(enemyType.getEnemyType(),enemyType.getStartTile()));
 		enemiesSpawned++;
 	}
 	

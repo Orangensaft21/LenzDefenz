@@ -113,7 +113,7 @@ public class TowerCannon {
 	public void shoot(){
 		//System.out.println(target.getID());
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
+		projectiles.add(new ProjectileIceball(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
 									   y+TILE_SIZE/2-TILE_SIZE/4,911,damage,target));
 		//wavEffect.playAsSoundEffect(1.0f, 1.0f, false);
 	}

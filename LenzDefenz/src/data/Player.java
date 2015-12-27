@@ -41,12 +41,12 @@ public class Player {
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown ){
 			Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
 			if (tile.isBuildable()&&TotalTime()>0.2f)
-				buildTower(tile, TowerType.cannonRed);
+				buildTower(tile, TowerType.cannonRed, false);
 		}
 		if (Mouse.isButtonDown(1) && !rightMouseButtonDown ){
 			Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
 			if (tile.isBuildable()&&TotalTime()>0.2f)
-				buildTower(tile, TowerType.slowTower);
+				buildTower(tile, TowerType.towerIce, true);
 		}
 		//if (Mouse.isButtonDown(1) && !rightMouseButtonDown)
 			//SetTile();
@@ -118,8 +118,11 @@ public class Player {
 		return (int) ((HEIGHT -Mouse.getY()-1*totalZoom+top*totalZoom)/TILE_SIZE);
 	}
 	
-	public void buildTower(Tile tile, TowerType type){
-		towerList.add(new SlowTower(type, tile));
+	public void buildTower(Tile tile, TowerType type,boolean rightClick){
+		if (rightClick)
+			towerList.add(new TowerIce(type, tile));
+		else
+			towerList.add(new SlowTower(type, tile));
 		tile.setBuildable(false);
 	}
 }

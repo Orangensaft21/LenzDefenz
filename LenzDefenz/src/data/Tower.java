@@ -13,12 +13,18 @@ import org.newdawn.slick.opengl.Texture;
 
 public abstract class Tower implements Entity{
 	
-	private float x,y,attackSpeed,angle,timeSinceLastShot;
-	private int width,height,damage,range;
-	private Enemy target;
+	protected float x;
+	protected float y;
+	private float attackSpeed;
+	private float angle;
+	private float timeSinceLastShot;
+	private int width,height;
+	protected int damage;
+	private int range;
+	protected Enemy target;
 	private Texture[] textures;
 	private boolean targeted;
-	private CopyOnWriteArrayList<Projectile> projectiles;
+	protected CopyOnWriteArrayList<Projectile> projectiles;
 	
 	public Tower(TowerType type, Tile startTile){
 		this.textures=type.textures;
@@ -62,6 +68,7 @@ public abstract class Tower implements Entity{
 		}else{
 			if (timeSinceLastShot > attackSpeed){				
 				shoot();
+				timeSinceLastShot = 0;
 			}
 		}
 		
@@ -80,7 +87,8 @@ public abstract class Tower implements Entity{
 
 	public void draw() {
 		DrawQuadTex(textures[0],x,y,width,height);
-		DrawQuadTexRot(textures[1],x,y,width,height,angle);
+		if (textures.length==2)
+				DrawQuadTexRot(textures[1],x,y,width,height,angle);
 	}
 	
 	private float calcAngle(){
@@ -101,13 +109,12 @@ public abstract class Tower implements Entity{
 		return (float) Math.sqrt(dx*dx+dy*dy);
 	}
 	
-	public void shoot(){
+	public abstract void shoot();/*{
 		//System.out.println(target.getID());
-		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
+		projectiles.add(new ProjectileBall(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
 									   y+TILE_SIZE/2-TILE_SIZE/4,911,damage,target));
 		//wavEffect.playAsSoundEffect(1.0f, 1.0f, false);
-	}
+	}*/
 	
 	public float getX() {
 		return x;
@@ -141,6 +148,8 @@ public abstract class Tower implements Entity{
 		this.height=height;
 	}
 
-	
+	public Enemy getTarget(){
+		return target;
+	}
 
 }

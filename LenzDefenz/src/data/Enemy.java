@@ -17,7 +17,7 @@ import static helpers.Artist.TILE_SIZE;
 public class Enemy implements Entity{
 	
 	private int width,height;
-	private float x,y,speed,startHealth,health;
+	private float x,y,speed,health,startHealth;
 	Texture texture;
 	private Tile startTile;
 	private boolean first = true, alive =true;								//wenn der erste gegner geupdatet wird ist delta riesig
@@ -29,7 +29,8 @@ public class Enemy implements Entity{
 	private boolean finished = false;
 	static Texture healthBack;
 	static Texture healthVorne;
-	
+	//brauch man nich
+	private EnemyType enemyType;
 	/*
 	 * Liste von allen gegnern
 	 */
@@ -39,17 +40,51 @@ public class Enemy implements Entity{
 	static public AStarPathFinder pf;
 	static public Path path;
 	
-	public Enemy(Texture texture, Tile startTile, int width, int height ,float speed, float health){
+	/*public Enemy(Texture texture, Tile startTile, int width, int height ,float speed, float health){
 		this.texture=texture;
 		this.x=startTile.getX();
 		this.y=startTile.getY();
 		this.width=width;
 		this.height=height;
-		this.health=health;this.startHealth=health;
+		this.health=health;
 		this.speed=speed;
 		this.startTile = startTile;
 		this.pathStatus=0;
 		
+		if (this.sd==null)
+			this.sd = (TileBasedMap) Boot.grid;
+		
+		this.grid =Boot.grid;
+		//test
+		if (path==null){
+			findPath();
+		}
+		this.target=path.getStep(0);
+		
+		if (enemies==null){
+			enemies = new CopyOnWriteArrayList<Enemy>();
+		}
+		enemies.add(this);
+		if (healthBack==null)
+			healthBack=QuickLoad("healthback");
+		if (healthVorne ==null)
+			healthVorne = QuickLoad("healthtex");
+		
+	}	*/
+	
+	public Enemy(EnemyType type, Tile startTile){
+		this.texture=type.textures[0]; // noch ändern
+		this.x=startTile.getX();
+		this.y=startTile.getY();
+		this.width=type.textures[0].getImageWidth();
+		this.height=type.textures[0].getImageHeight();
+		this.health=type.health;
+		this.startHealth=type.health;
+		this.speed=type.speed;
+		this.startTile = startTile;
+		this.pathStatus=0;
+		//
+		enemyType=type;
 		if (this.sd==null)
 			this.sd = (TileBasedMap) Boot.grid;
 		
@@ -156,6 +191,13 @@ public class Enemy implements Entity{
 		DrawQuadTex(healthBack,x,y-6,width,8);
 		DrawQuadTex(healthVorne,x,y-6,TILE_SIZE*healthProzent,8);		
 	}
+	
+	/*
+	 * muss noch weg
+	 */
+	public EnemyType getEnemyType(){
+		return enemyType;
+	}
 
 	public int getWidth() {
 		return width;
@@ -249,6 +291,10 @@ public class Enemy implements Entity{
 
 	public static synchronized void removeEnemy(Enemy e) {
 		enemies.remove(e);
+	}
+	
+	public float getStartHealth(){
+		return startHealth;
 	}
 	
 	

@@ -7,7 +7,7 @@ import static helpers.Clock.Delta;
 import org.newdawn.slick.opengl.Texture;
 import static helpers.Artist.*;
 
-public class Projectile implements Entity{
+public abstract class Projectile implements Entity{
 	private Texture texture;
 	private float x,y,speed,xSpeed,ySpeed;
 	private int damage,width, height;
@@ -47,6 +47,11 @@ public class Projectile implements Entity{
 		
 	}
 	
+	public void damage(){
+		target.Damage(damage);
+		this.alive = false;
+	}
+	
 	public void update(){
 		if (alive){
 			x += xSpeed*Delta()*speed;
@@ -54,9 +59,7 @@ public class Projectile implements Entity{
 			draw();
 			if (checkCollision(x,y,width,height,target.getX(),
 							 target.getY(), target.getWidth(),target.getHeight())){
-				//System.out.println("Kugel trifft");
-				target.Damage(damage);
-				alive = false;
+				damage();
 			}
 		}	
 		// speed test
@@ -113,4 +116,10 @@ public class Projectile implements Entity{
 		this.height=height;
 	}
 	
+	public Enemy getTarget(){
+		return target;
+	}
+	public void setAlive(boolean alive){
+		this.alive=alive;
+	}
 }
