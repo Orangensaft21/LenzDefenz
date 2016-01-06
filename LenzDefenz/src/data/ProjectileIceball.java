@@ -14,7 +14,8 @@ public class ProjectileIceball extends Projectile{
 	public void damage(){
 		super.damage();
 		e = super.getTarget();
-		e.setSpeed(e.getEnemyType().speed*0.7f);
+		e.slow(5f, 0.7f);
+		//e.setSpeed(e.getEnemyType().speed*0.7f);
 	}
 	
 }

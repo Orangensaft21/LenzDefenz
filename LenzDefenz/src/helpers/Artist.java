@@ -18,15 +18,25 @@ import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glVertex3f;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.BufferedImageUtil;
 import org.newdawn.slick.util.ResourceLoader;
 
 public class Artist {
@@ -61,7 +71,6 @@ public class Artist {
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
 		// test
 		//glEnable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
 		//
@@ -183,7 +192,6 @@ public class Artist {
 	public static Texture LoadTexture(String path, String filetype){
 		
 		
-		
 		Texture tex = null;
 		InputStream in = ResourceLoader.getResourceAsStream(path);
 		try {
@@ -202,8 +210,60 @@ public class Artist {
 				bullet = LoadTexture("res/" + name +".png", "PNG");
 			else return bullet;
 		
-		
 		return LoadTexture("res/" + name +".png", "PNG");
+	}
+	
+	
+	/*
+	 * neu 2016 Enemy Image Hilfsfunktionen
+	 */
+	
+	public static Texture[][] LoadEnemyTextures(String path){
+		BufferedImage img = null;
+
+		try {
+			InputStream in = Artist.class.getClassLoader().getResourceAsStream("res/"+path);
+			//URL f = Artist.class.getClassLoader().getResource("res/"+path);
+		    img = ImageIO.read(in);
+		    //img = img.getSubimage(48, 16, 48, 48);
+		    Texture[][] tex = new Texture[4][3];
+		    for(int i=0;i<4;i++)
+		    	for(int j=0;j<3;j++){
+		    		tex[i][j]=BufferedImageUtil.getTexture("", img.getSubimage(64*j, 64*i, 64, 64));
+		    	}
+		    return tex;
+		    //return BufferedImageUtil.getTexture("", img);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+		
+	}
+	
+	/*
+	 * noch anpassen
+	 */
+	
+	public static Texture[] LoadTowerTextures(String name){
+		BufferedImage img = null;
+		try{
+			//URL f = Artist.class.getClassLoader().getResource("res/"+name);
+			//img = ImageIO.read(new File(f.toURI()));
+			InputStream in = Artist.class.getClassLoader().getResourceAsStream("res/"+name);
+			img = ImageIO.read(in);
+			Texture[] tex = new Texture[2];
+			for (int i=0;i<2;i++){
+				tex[i]=BufferedImageUtil.getTexture("", img.getSubimage(64*i, 0, 64, 64));
+			}
+			return tex;
+		}catch (IOException e) {
+			e.printStackTrace();
+		
+		}
+		
+		return null;
 	}
 	
 }

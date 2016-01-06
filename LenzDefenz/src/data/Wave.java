@@ -8,13 +8,13 @@ import static helpers.Clock.*;
 public class Wave {
 
 	private float timeSinceLastSpawn, spawnTime;
-	private Enemy enemyType;
+	private EnemyType enemyType;
 	private ArrayList<Enemy> enemyList;
 	private int enemiesPerWave;
 	private int enemiesSpawned;
 	private boolean completed;
 
-	public Wave(Enemy enemyType, float spawnTime, int enemiesPerWave) {
+	public Wave(EnemyType enemyType, float spawnTime, int enemiesPerWave) {
 		this.enemyType = enemyType;
 		this.spawnTime = spawnTime;
 		timeSinceLastSpawn = 0;
@@ -52,7 +52,7 @@ public class Wave {
 		// System.out.println("spawn");
 		//enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), TILE_SIZE, TILE_SIZE, enemyType.getSpeed(),enemyType.getHealth()));
 		
-		enemyList.add(new Enemy(enemyType.getEnemyType(),enemyType.getStartTile()));
+		enemyList.add(new Enemy(enemyType,Boot.grid.getTile(0,2)));
 		enemiesSpawned++;
 	}
 	

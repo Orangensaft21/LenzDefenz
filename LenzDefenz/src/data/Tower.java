@@ -87,7 +87,7 @@ public abstract class Tower implements Entity{
 
 	public void draw() {
 		DrawQuadTex(textures[0],x,y,width,height);
-		if (textures.length==2)
+		if (textures.length==2&&textures[1]!=null)
 				DrawQuadTexRot(textures[1],x,y,width,height,angle);
 	}
 	

@@ -47,10 +47,14 @@ public class WaveManager {
 	}
 	
 	public void newWave(){
-		waves.add(new Wave(enemyType,timeBetweenEnemies, enemiesPerWave));
-		//currentWave = new Wave(enemyType,timeBetweenEnemies, enemiesPerWave); // 20sek für alle waves
-		waveNumber++;
+		for (EnemyType type:EnemyType.values()){
+			if (type.waveNumber==waveNumber)
+				waves.add(new Wave(type,timeBetweenEnemies, enemiesPerWave));
+		}
 		System.out.println("Welle:"+ waveNumber);
+		waveNumber++;
+		waveNumber = waveNumber %3;
+		waveNumber++;
 	}
 	public Wave getCurrentWave(){
 		return waves.get(waves.size());

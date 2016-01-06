@@ -2,6 +2,7 @@ package data;
 
 import static helpers.Artist.HEIGHT;
 import static helpers.Artist.TILE_SIZE;
+import static helpers.Artist.WIDTH;
 import static helpers.Artist.left;
 import static helpers.Artist.scrollMap;
 import static helpers.Artist.top;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import UI.TowerPickUI;
 import helpers.Clock;
 public class Player {
 
@@ -21,7 +23,8 @@ public class Player {
 	@SuppressWarnings("unused")
 	private WaveManager waveManager;
 	private ArrayList<Tower> towerList;
-	private boolean leftMouseButtonDown,rightMouseButtonDown;
+	private boolean leftMouseButtonDown,rightMouseButtonDown,toggleUI;
+	private TowerPickUI towerUI;
 	
 	public Player(TileGrid grid,WaveManager waveManager){
 		this.grid=grid;
@@ -29,6 +32,11 @@ public class Player {
 		this.towerList = new ArrayList<Tower>();
 		leftMouseButtonDown = false;
 		rightMouseButtonDown=false;
+		toggleUI=false;
+		towerUI = new TowerPickUI();
+		towerUI.addButton("Eistower", TowerType.towerIce,(int) (WIDTH*0.45f), (int) (HEIGHT*0.45f));
+		towerUI.addButton("Olitower", TowerType.OliTower, (int) (WIDTH*0.50f) , (int) (HEIGHT*0.45f));
+		towerUI.addButton("Cannontower", TowerType.cannonRed, (int) (WIDTH*0.55f) , (int) (HEIGHT*0.45f));
 	}
 	
 	
@@ -37,16 +45,29 @@ public class Player {
 		for (Tower t :towerList){
 			t.update();
 		}
+		/*
+		 * TowerUI zeichnen falls toggled
+		 */
+		if (toggleUI)
+			towerUI.Draw();
+		
 		//Maus input
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown ){
-			Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
-			if (tile.isBuildable()&&TotalTime()>0.2f)
-				buildTower(tile, TowerType.cannonRed, false);
+			if (toggleUI){
+				towerUI.setTowerPicked(towerUI.getButtonClicked());;
+				System.out.println(towerUI.getTowerPicked());
+			}
+			else{	
+				Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
+				if (tile.isBuildable()&&TotalTime()>0.2f)
+					buildTower(tile, TowerType.cannonRed, false);
+			}
 		}
 		if (Mouse.isButtonDown(1) && !rightMouseButtonDown ){
+			toggleUI = !toggleUI;/*
 			Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
 			if (tile.isBuildable()&&TotalTime()>0.2f)
-				buildTower(tile, TowerType.towerIce, true);
+				buildTower(tile, TowerType.towerIce, true);*/
 		}
 		//if (Mouse.isButtonDown(1) && !rightMouseButtonDown)
 			//SetTile();
@@ -119,10 +140,18 @@ public class Player {
 	}
 	
 	public void buildTower(Tile tile, TowerType type,boolean rightClick){
-		if (rightClick)
-			towerList.add(new TowerIce(type, tile));
-		else
-			towerList.add(new SlowTower(type, tile));
+		switch (towerUI.getTowerPicked()){
+		case "Eistower":
+			towerList.add(new TowerIce(TowerType.towerIce, tile));
+			break;
+		case "Olitower":
+			towerList.add(new SlowTower(TowerType.OliTower, tile));
+			break;
+		case "Cannontower":
+			towerList.add(new SlowTower(TowerType.cannonRed, tile));
+			break;
+		}
 		tile.setBuildable(false);
+		
 	}
 }

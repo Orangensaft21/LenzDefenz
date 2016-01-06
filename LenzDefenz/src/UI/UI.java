@@ -10,7 +10,7 @@ import org.lwjgl.input.Mouse;
 
 public class UI {
 
-	private ArrayList<Button> buttonList;
+	protected ArrayList<Button> buttonList;
 	
 	public UI(){
 		buttonList = new ArrayList<Button>();
@@ -32,7 +32,15 @@ public class UI {
 		return false;
 	}
 	
-	private Button getButton(String buttonName){
+	public String getButtonClicked(){
+		for (Button b: buttonList){
+			if (isButtonClicked(b.getName()))
+				return b.getName();
+		}
+		return "nix";
+	}
+	
+	protected Button getButton(String buttonName){
 		for (Button b : buttonList){
 			if (b.getName().equals(buttonName))
 				return b;
