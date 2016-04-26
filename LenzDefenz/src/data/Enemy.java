@@ -30,6 +30,7 @@ public class Enemy implements Entity{
 	static Texture healthBack;
 	static Texture healthVorne;
 	Texture[][] textures;
+	Wave wave;
 	/*
 	 * Hilfsvariablen zum zeichnen
 	 */
@@ -40,7 +41,7 @@ public class Enemy implements Entity{
 	/*
 	 * Liste von allen gegnern
 	 */
-	public static CopyOnWriteArrayList<Enemy> enemies;
+	//public static CopyOnWriteArrayList<Enemy> enemies;
 	
 	
 	static public AStarPathFinder pf;
@@ -48,7 +49,7 @@ public class Enemy implements Entity{
 	
 	
 	
-	public Enemy(EnemyType type, Tile startTile){
+	public Enemy(EnemyType type, Tile startTile, Wave wave){
 		this.texture=type.textures[0][0]; // noch ändern
 		this.textures=type.textures;
 		this.x=startTile.getX();
@@ -61,6 +62,7 @@ public class Enemy implements Entity{
 		this.pathStatus=0;
 		this.timeSinceLastDraw=0;
 		this.timeSlowed=0;
+		this.wave=wave;
 		//
 		enemyType=type;
 		if (this.sd==null)
@@ -73,10 +75,10 @@ public class Enemy implements Entity{
 		}
 		this.target=path.getStep(0);
 		
-		if (enemies==null){
+		/*if (enemies==null){
 			enemies = new CopyOnWriteArrayList<Enemy>();
 		}
-		enemies.add(this);
+		enemies.add(this);*/
 		if (healthBack==null)
 			healthBack=QuickLoad("healthback");
 		if (healthVorne ==null)
@@ -94,6 +96,7 @@ public class Enemy implements Entity{
 		 * beim ersten Element ist Delta() extrem gross, deswegen 
 		 * er das nicht updaten
 		 */
+		//System.out.println(enemies.size());
 		
 		if (first){
 			first=false;
@@ -104,15 +107,6 @@ public class Enemy implements Entity{
 		timeSlowed-=Delta();
 		if (timeSlowed <=0)
 			speed=enemyType.speed;
-		/*
-		 * enemy list aufräumen 
-		 */
-		for (Enemy e : enemies){
-			if (!e.isAlive()){
-				enemies.remove(e);
-				break;
-			}
-		}
 		/*
 		 * zeichnen
 		 */
@@ -176,6 +170,7 @@ public class Enemy implements Entity{
 	
 	private void Die(){
 		alive = false;
+		Player.lives--;
 	}
 	
 	public void Damage(int amount){
@@ -185,12 +180,14 @@ public class Enemy implements Entity{
 	}
 	
 	public void draw(){
-		float healthProzent= health/enemyType.health;
 		DrawQuadTex(textures[iTexIndex][jTexIndex],x,y,width,height);
+		
+	}
+	public void drawHealth(){
+		float healthProzent= health/enemyType.health;
 		DrawQuadTex(healthBack,x+14,y+3,34,8);
 		DrawQuadTex(healthVorne,x+14,y+3,34*healthProzent,8);		
 	}
-	
 	/*
 	 * muss noch weg
 	 */
@@ -289,15 +286,6 @@ public class Enemy implements Entity{
 		return alive;
 	}
 
-
-	public static synchronized CopyOnWriteArrayList<Enemy> getEnemies() {
-		return enemies;
-	}
-
-
-	public static synchronized void removeEnemy(Enemy e) {
-		enemies.remove(e);
-	}
 	
 	public float getStartHealth(){
 		return enemyType.health;

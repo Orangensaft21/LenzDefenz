@@ -3,7 +3,6 @@ package data;
 import static helpers.Artist.BeginSession;
 
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.TrueTypeFont;
 
 import helpers.Clock;
 import helpers.GameManager;
@@ -14,7 +13,6 @@ public class Boot {
 	
 	public static TileGrid grid;
 	
-	TrueTypeFont font;
 	
 	Boot(){
 		helpers.Artist.totalZoom=1f;

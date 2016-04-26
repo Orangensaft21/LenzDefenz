@@ -10,9 +10,11 @@ import static helpers.Artist.*;
 public abstract class Projectile implements Entity{
 	private Texture texture;
 	private float x,y,speed,xSpeed,ySpeed;
-	private int damage,width, height;
+	protected int damage;
+	private int width;
+	private int height;
 	private Enemy target;
-	private boolean alive;
+	protected boolean alive;
 	
 	public Projectile(Texture tex, float x, float y, float speed, int damage, Enemy target){
 		this.x=x;

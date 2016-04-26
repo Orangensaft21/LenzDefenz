@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 import UI.TowerPickUI;
 import helpers.Clock;
@@ -25,6 +26,7 @@ public class Player {
 	private ArrayList<Tower> towerList;
 	private boolean leftMouseButtonDown,rightMouseButtonDown,toggleUI;
 	private TowerPickUI towerUI;
+	public static int lives;
 	
 	public Player(TileGrid grid,WaveManager waveManager){
 		this.grid=grid;
@@ -37,8 +39,9 @@ public class Player {
 		towerUI.addButton("Eistower", TowerType.towerIce,(int) (WIDTH*0.45f), (int) (HEIGHT*0.45f));
 		towerUI.addButton("Olitower", TowerType.OliTower, (int) (WIDTH*0.50f) , (int) (HEIGHT*0.45f));
 		towerUI.addButton("Cannontower", TowerType.cannonRed, (int) (WIDTH*0.55f) , (int) (HEIGHT*0.45f));
+		
 	}
-	
+	//as
 	
 	
 	public void update(){
@@ -132,10 +135,14 @@ public class Player {
 	 */
 	
 	public int getMouseX(){
+		
+		Mouse.setClipMouseCoordinatesToWindow(false);
 		return (int)((Mouse.getX()+left*totalZoom)/TILE_SIZE);
 	}
 	
 	public int getMouseY(){
+		
+		//return (int)((Display.getHeight()-Mouse.getY()+top*totalZoom)/TILE_SIZE);
 		return (int) ((HEIGHT -Mouse.getY()-1*totalZoom+top*totalZoom)/TILE_SIZE);
 	}
 	
@@ -147,6 +154,7 @@ public class Player {
 		case "Olitower":
 			towerList.add(new SlowTower(TowerType.OliTower, tile));
 			break;
+		//TODO	
 		case "Cannontower":
 			towerList.add(new SlowTower(TowerType.cannonRed, tile));
 			break;

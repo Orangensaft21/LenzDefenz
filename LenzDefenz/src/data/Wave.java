@@ -2,6 +2,8 @@ package data;
 
 import static helpers.Artist.TILE_SIZE;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static helpers.Clock.*;
 
@@ -9,7 +11,8 @@ public class Wave {
 
 	private float timeSinceLastSpawn, spawnTime;
 	private EnemyType enemyType;
-	private ArrayList<Enemy> enemyList;
+	private  CopyOnWriteArrayList<Enemy> enemyList;
+	private static CopyOnWriteArrayList<Enemy> allEnemiesList;//=new CopyOnWriteArrayList<Enemy>();
 	private int enemiesPerWave;
 	private int enemiesSpawned;
 	private boolean completed;
@@ -18,7 +21,9 @@ public class Wave {
 		this.enemyType = enemyType;
 		this.spawnTime = spawnTime;
 		timeSinceLastSpawn = 0;
-		this.enemyList = new ArrayList<Enemy>();
+		if (allEnemiesList==null)
+			Wave.allEnemiesList = new CopyOnWriteArrayList<Enemy>();
+		this.enemyList= new CopyOnWriteArrayList<Enemy>();
 		this.enemiesPerWave =enemiesPerWave;
 		enemiesSpawned=0;
 		
@@ -41,6 +46,17 @@ public class Wave {
 				e.update();
 				e.draw();
 				completed=false;
+			}else{
+				allEnemiesList.remove(e);
+				enemyList.remove(e);
+				
+			}
+			
+		}
+		for (Enemy e : enemyList) {
+			if (e.isAlive()) {
+				e.drawHealth();
+				completed=false;
 			}
 		}
 	}
@@ -51,8 +67,9 @@ public class Wave {
 	private void spawn() {
 		// System.out.println("spawn");
 		//enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), TILE_SIZE, TILE_SIZE, enemyType.getSpeed(),enemyType.getHealth()));
-		
-		enemyList.add(new Enemy(enemyType,Boot.grid.getTile(0,2)));
+		Enemy e = new Enemy(enemyType,Boot.grid.getTile(0,2),this);
+		allEnemiesList.add(e);
+		enemyList.add(e);
 		enemiesSpawned++;
 	}
 	
@@ -63,7 +80,8 @@ public class Wave {
 	public boolean isCompleted(){
 		return completed;
 	}
-	public ArrayList<Enemy> getEnemyList() {
-		return enemyList;
+	public static CopyOnWriteArrayList<Enemy> getAllEnemyList() {
+		return allEnemiesList;
 	}
+	
 }

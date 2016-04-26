@@ -57,7 +57,7 @@ public class TowerCannon {
 	private Enemy acquireTarget(){
 		Enemy closest = null;
 		float closestDist = WIDTH*2;
-		for (Enemy e:Enemy.getEnemies()){
+		for (Enemy e:Wave.getAllEnemyList()){
 			if (isInRange(e) && findDistance(e)<closestDist){
 				closest=e;
 				closestDist=findDistance(e);

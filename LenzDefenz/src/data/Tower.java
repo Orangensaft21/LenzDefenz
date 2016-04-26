@@ -7,9 +7,13 @@ import static helpers.Artist.TILE_SIZE;
 import static helpers.Artist.WIDTH;
 import static helpers.Clock.Delta;
 
+import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.util.ResourceLoader;
 
 public abstract class Tower implements Entity{
 	
@@ -39,12 +43,14 @@ public abstract class Tower implements Entity{
 		this.attackSpeed=type.attackSpeed;
 		this.angle=0;
 		this.timeSinceLastShot=0;
+		
+		
 	}
 	
 	private Enemy acquireTarget(){
 		Enemy closest = null;
 		float closestDist = WIDTH*2;
-		for (Enemy e:Enemy.getEnemies()){
+		for (Enemy e:Wave.getAllEnemyList()){
 			if (isInRange(e) && findDistance(e)<closestDist){
 				closest=e;
 				closestDist=findDistance(e);

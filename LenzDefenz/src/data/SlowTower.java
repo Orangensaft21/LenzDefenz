@@ -12,8 +12,7 @@ public class SlowTower extends Tower{
 	@Override
 	public void shoot(){
 		//System.out.println(target.getID());
-		projectiles.add(new ProjectileBall(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
+		projectiles.add(new ProjectileSplash(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
 									   y+TILE_SIZE/2-TILE_SIZE/4,911,damage,target));
-		//wavEffect.playAsSoundEffect(1.0f, 1.0f, false);
 	}
 }

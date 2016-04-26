@@ -21,6 +21,7 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
+
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -55,8 +56,10 @@ public class Artist {
 		Display.setTitle("Lenz Defenz");
 		try {
 			Display.setDisplayMode(new DisplayMode((int) (WIDTH/totalZoom),(int) (HEIGHT/totalZoom)));
+			System.out.println(Display.getDisplayMode());
 			Display.setVSyncEnabled(true);
-			
+			Display.setResizable(false);
+			//System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
@@ -74,6 +77,7 @@ public class Artist {
 		// test
 		//glEnable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
 		//
+		
 
 	}
 	/*
