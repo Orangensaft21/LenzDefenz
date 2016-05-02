@@ -170,7 +170,8 @@ public class Enemy implements Entity{
 	
 	private void Die(){
 		alive = false;
-		Player.lives--;
+		if (finished)
+			Player.lives--;
 	}
 	
 	public void Damage(int amount){

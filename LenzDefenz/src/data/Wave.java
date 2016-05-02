@@ -56,7 +56,7 @@ public class Wave {
 		for (Enemy e : enemyList) {
 			if (e.isAlive()) {
 				e.drawHealth();
-				completed=false;
+				//completed=false;
 			}
 		}
 	}
