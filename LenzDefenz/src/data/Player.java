@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import Towers.ArrowTower;
+import Towers.SlowTower;
+import Towers.TowerIce;
 import UI.PickUI;
 import helpers.Clock;
 public class Player {
@@ -155,7 +158,7 @@ public class Player {
 			break;
 		//TODO	
 		case "Cannontower":
-			towerList.add(new SlowTower(TowerType.cannonRed, tile));
+			towerList.add(new ArrowTower(TowerType.cannonRed, tile));
 			break;
 		}
 		tile.setBuildable(false);

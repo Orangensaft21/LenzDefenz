@@ -1,4 +1,4 @@
-package data;
+package Towers;
 
 import static helpers.Artist.DrawQuadTex;
 import static helpers.Artist.DrawQuadTexRot;
@@ -14,6 +14,12 @@ import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.ResourceLoader;
+
+import data.Enemy;
+import data.Projectile;
+import data.ProjectileIceball;
+import data.Tile;
+import data.Wave;
 
 public class TowerCannon {
 	private float x,y,timeSinceLastShot,firingSpeed, angle;

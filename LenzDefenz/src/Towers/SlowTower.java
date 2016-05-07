@@ -1,7 +1,12 @@
-package data;
+package Towers;
 
 import static helpers.Artist.QuickLoad;
 import static helpers.Artist.TILE_SIZE;
+
+import data.ProjectileSplash;
+import data.Tile;
+import data.Tower;
+import data.TowerType;
 
 public class SlowTower extends Tower{
 	

@@ -1,7 +1,12 @@
-package data;
+package Towers;
 
 import static helpers.Artist.QuickLoad;
 import static helpers.Artist.TILE_SIZE;
+
+import data.ProjectileIceball;
+import data.Tile;
+import data.Tower;
+import data.TowerType;
 
 public class TowerIce extends Tower{
 	
