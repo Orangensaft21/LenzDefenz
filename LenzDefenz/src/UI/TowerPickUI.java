@@ -5,7 +5,7 @@ import static helpers.Artist.QuickLoad;
 import org.newdawn.slick.opengl.Texture;
 
 import data.TowerType;
-
+import static helpers.Artist.WIDTH;
 public class TowerPickUI extends UI{
 	
 	private String towerPicked ="none";
@@ -35,6 +35,15 @@ public class TowerPickUI extends UI{
 		
 		buttonList.add(new Button(name,type.textures[0],x,y));
 		
+	}
+	
+	public void setButtonMousePos(int x, int y){
+		float verschieb = 0.00f;
+		for (Button b: buttonList){
+			b.setX((int)(x+WIDTH*verschieb));
+			b.setY(y);
+			verschieb += 0.05f;
+		}
 	}
 	
 }

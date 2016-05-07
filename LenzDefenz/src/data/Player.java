@@ -67,13 +67,10 @@ public class Player {
 			}
 		}
 		if (Mouse.isButtonDown(1) && !rightMouseButtonDown ){
-			toggleUI = !toggleUI;/*
-			Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
-			if (tile.isBuildable()&&TotalTime()>0.2f)
-				buildTower(tile, TowerType.towerIce, true);*/
+			toggleUI = !toggleUI;
+			towerUI.setButtonMousePos(Mouse.getX(), HEIGHT-Mouse.getY());
 		}
-		//if (Mouse.isButtonDown(1) && !rightMouseButtonDown)
-			//SetTile();
+		
 		/*keine Hilfsvariablen die nach dem ersten
 		 * Mausklick auf true gesetzt werden um Mehrfachklicks
 		 * zu vermeiden
