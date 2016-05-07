@@ -27,7 +27,7 @@ public abstract class Tower implements Entity{
 	private int range;
 	protected Enemy target;
 	private Texture[] textures;
-	private boolean targeted;
+	protected boolean targeted;
 	protected CopyOnWriteArrayList<Projectile> projectiles;
 	
 	public Tower(TowerType type, Tile startTile){
@@ -102,7 +102,7 @@ public abstract class Tower implements Entity{
 		return (float) Math.toDegrees(angleTemp) -90;
 	}
 	
-	private boolean isInRange(Enemy e){
+	protected boolean isInRange(Enemy e){
 		if(findDistance(e)>range)
 			return false;
 		return true;

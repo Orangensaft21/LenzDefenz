@@ -18,6 +18,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import Towers.ArrowTower;
+import Towers.MultiTower;
 import Towers.SlowTower;
 import Towers.TowerIce;
 import UI.PickUI;
@@ -40,13 +41,17 @@ public class Player {
 		rightMouseButtonDown=false;
 		toggleUI=false;
 		towerUI = new PickUI();
-		towerUI.addButton("Eistower", TowerType.towerIce,(int) (WIDTH*0.45f), (int) (HEIGHT*0.45f));
+		/*towerUI.addButton("Eistower", TowerType.towerIce,(int) (WIDTH*0.45f), (int) (HEIGHT*0.45f));
 		towerUI.addButton("Olitower", TowerType.OliTower, (int) (WIDTH*0.50f) , (int) (HEIGHT*0.45f));
-		towerUI.addButton("Cannontower", TowerType.cannonRed, (int) (WIDTH*0.55f) , (int) (HEIGHT*0.45f));
-		
+		towerUI.addButton("Cannontower", TowerType.cannonRed, (int) (WIDTH*0.55f) , (int) (HEIGHT*0.45f));*/
+		initializeUI();
 	}
 	//as
-	
+	public void initializeUI(){
+		for (TowerType t: TowerType.values()){
+			towerUI.addButton(t.name(), t, 0, 0);
+		}
+	}
 	
 	public void update(){
 		for (Tower t :towerList){
@@ -67,7 +72,7 @@ public class Player {
 			else{	
 				Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
 				if (tile.isBuildable()&&TotalTime()>0.2f)
-					buildTower(tile, TowerType.cannonRed, false);
+					buildTower(tile, false);
 			}
 		}
 		if (Mouse.isButtonDown(1) && !rightMouseButtonDown ){
@@ -148,18 +153,29 @@ public class Player {
 		return (int) ((HEIGHT -Mouse.getY()-1*totalZoom+top*totalZoom)/TILE_SIZE);
 	}
 	
-	public void buildTower(Tile tile, TowerType type,boolean rightClick){
-		switch (towerUI.getTowerPicked()){
-		case "Eistower":
+	public void buildTower(Tile tile, boolean rightClick){
+		TowerType type=null;
+		//Aus dem String den zugehörigen TowerType suchen
+		for (TowerType t: TowerType.values()){
+			if (t.name().equals(towerUI.getTowerPicked()))
+				type=t;
+		}
+		if (type==null)
+			return;
+		switch (type){
+		case towerIce:
 			towerList.add(new TowerIce(TowerType.towerIce, tile));
 			break;
-		case "Olitower":
+		case OliTower:
 			towerList.add(new SlowTower(TowerType.OliTower, tile));
 			break;
-		//TODO	
-		case "Cannontower":
+		case cannonRed:
 			towerList.add(new ArrowTower(TowerType.cannonRed, tile));
 			break;
+		case towerMulti:
+			towerList.add(new MultiTower(TowerType.towerMulti, tile));
+			break;
+		
 		}
 		tile.setBuildable(false);
 		
