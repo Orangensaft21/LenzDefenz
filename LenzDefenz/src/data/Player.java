@@ -1,6 +1,8 @@
 package data;
 
 import static helpers.Artist.HEIGHT;
+import static helpers.Artist.getMouseXCoord;
+import static helpers.Artist.getMouseYCoord;
 import static helpers.Artist.TILE_SIZE;
 import static helpers.Artist.WIDTH;
 import static helpers.Artist.left;
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 
 import UI.TowerPickUI;
 import helpers.Clock;
@@ -68,7 +69,8 @@ public class Player {
 		}
 		if (Mouse.isButtonDown(1) && !rightMouseButtonDown ){
 			toggleUI = !toggleUI;
-			towerUI.setButtonMousePos(Mouse.getX(), HEIGHT-Mouse.getY());
+			System.out.println(getMouseX());
+			towerUI.setButtonMousePos(getMouseXCoord(), getMouseYCoord());
 		}
 		
 		/*keine Hilfsvariablen die nach dem ersten
@@ -129,6 +131,7 @@ public class Player {
 	
 	/*
 	 * funktion macht bei krummen zooms noch probleme
+	 * gibt die TILE aus nicht die Koords!!
 	 */
 	
 	public int getMouseX(){
@@ -159,4 +162,5 @@ public class Player {
 		tile.setBuildable(false);
 		
 	}
+	
 }

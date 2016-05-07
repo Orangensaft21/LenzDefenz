@@ -1,5 +1,9 @@
 package helpers;
 
+import static helpers.Artist.HEIGHT;
+import static helpers.Artist.left;
+import static helpers.Artist.top;
+import static helpers.Artist.totalZoom;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
@@ -33,6 +37,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.Texture;
@@ -268,6 +273,14 @@ public class Artist {
 		}
 		
 		return null;
+	}
+	
+	public static int getMouseXCoord(){
+		return (int)(Mouse.getX()/totalZoom+left);
+	}
+	
+	public static int getMouseYCoord(){
+		return (int)(HEIGHT/totalZoom -Mouse.getY()/totalZoom-1+top);
 	}
 	
 }
