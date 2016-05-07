@@ -13,7 +13,7 @@ public abstract class Projectile implements Entity{
 	protected int damage;
 	private int width;
 	private int height;
-	private Enemy target;
+	protected Enemy target;
 	protected boolean alive;
 	
 	public Projectile(Texture tex, float x, float y, float speed, int damage, Enemy target){
@@ -39,7 +39,7 @@ public abstract class Projectile implements Entity{
 	 * müsste jetzt alles passen.
 	 */
 	
-	private void calcDirection(){
+	protected void calcDirection(){
 		float xDistanceFromTarget = target.getX() -x + TILE_SIZE/2 - TILE_SIZE/4;
 		float yDistanceFromTarget = target.getY() -y + TILE_SIZE/2 - TILE_SIZE/4;
 		

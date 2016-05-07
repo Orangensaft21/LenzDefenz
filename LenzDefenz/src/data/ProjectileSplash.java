@@ -33,4 +33,11 @@ public class ProjectileSplash extends Projectile{
 			return true;
 		return false;
 	}
+	
+	@Override
+	public void update(){
+		super.update();
+		if (target.isAlive())
+			super.calcDirection();
+	}
 }

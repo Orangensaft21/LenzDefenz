@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import UI.TowerPickUI;
+import UI.PickUI;
 import helpers.Clock;
 public class Player {
 
@@ -26,7 +26,7 @@ public class Player {
 	private WaveManager waveManager;
 	private ArrayList<Tower> towerList;
 	private boolean leftMouseButtonDown,rightMouseButtonDown,toggleUI;
-	private TowerPickUI towerUI;
+	private PickUI towerUI;
 	public static int lives;
 	
 	public Player(TileGrid grid,WaveManager waveManager){
@@ -36,7 +36,7 @@ public class Player {
 		leftMouseButtonDown = false;
 		rightMouseButtonDown=false;
 		toggleUI=false;
-		towerUI = new TowerPickUI();
+		towerUI = new PickUI();
 		towerUI.addButton("Eistower", TowerType.towerIce,(int) (WIDTH*0.45f), (int) (HEIGHT*0.45f));
 		towerUI.addButton("Olitower", TowerType.OliTower, (int) (WIDTH*0.50f) , (int) (HEIGHT*0.45f));
 		towerUI.addButton("Cannontower", TowerType.cannonRed, (int) (WIDTH*0.55f) , (int) (HEIGHT*0.45f));
@@ -59,7 +59,7 @@ public class Player {
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown ){
 			if (toggleUI){
 				towerUI.setTowerPicked(towerUI.getButtonClicked());;
-				System.out.println(towerUI.getTowerPicked());
+				//System.out.println(towerUI.getTowerPicked());
 			}
 			else{	
 				Tile tile = grid.getTile(getMouseX()/totalZoom,getMouseY()/totalZoom);
@@ -69,7 +69,6 @@ public class Player {
 		}
 		if (Mouse.isButtonDown(1) && !rightMouseButtonDown ){
 			toggleUI = !toggleUI;
-			System.out.println(getMouseX());
 			towerUI.setButtonMousePos(getMouseXCoord(), getMouseYCoord());
 		}
 		

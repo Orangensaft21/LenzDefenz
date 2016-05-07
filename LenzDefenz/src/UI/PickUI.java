@@ -4,9 +4,10 @@ import static helpers.Artist.DrawQuadTex;
 import static helpers.Artist.QuickLoad;
 import org.newdawn.slick.opengl.Texture;
 
+import data.TileType;
 import data.TowerType;
 import static helpers.Artist.WIDTH;
-public class TowerPickUI extends UI{
+public class PickUI extends UI{
 	
 	private String towerPicked ="none";
 	private Texture greenFrame = QuickLoad("rahmen");
@@ -30,10 +31,16 @@ public class TowerPickUI extends UI{
 		}
 	}
 	
-	
+	//für Towers
 	public void addButton(String name, TowerType type, int x, int y){
 		
 		buttonList.add(new Button(name,type.textures[0],x,y));
+		
+	}
+	//für Editor (Tiles), könnte man noch anders anordnen wenn zuviele
+	public void addButton(String name, TileType type, int x, int y){
+		
+		buttonList.add(new Button(name,QuickLoad(type.textureName),x,y));
 		
 	}
 	

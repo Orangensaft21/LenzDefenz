@@ -4,7 +4,7 @@ public enum TileType {
 	
 	Grass("grass",true,"0"),Dirt("dirt",false,"1"),Water("water",false,"2");
 	
-	String textureName;
+	public String textureName;
 	boolean buildable;
 	String number;
 	
