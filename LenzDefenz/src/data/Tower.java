@@ -2,18 +2,13 @@ package data;
 
 import static helpers.Artist.DrawQuadTex;
 import static helpers.Artist.DrawQuadTexRot;
-import static helpers.Artist.QuickLoad;
 import static helpers.Artist.TILE_SIZE;
 import static helpers.Artist.WIDTH;
 import static helpers.Clock.Delta;
 
-import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.util.ResourceLoader;
 
 public abstract class Tower implements Entity{
 	

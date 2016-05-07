@@ -1,10 +1,9 @@
 package data;
 
 import static helpers.Artist.HEIGHT;
+import static helpers.Artist.TILE_SIZE;
 import static helpers.Artist.getMouseXCoord;
 import static helpers.Artist.getMouseYCoord;
-import static helpers.Artist.TILE_SIZE;
-import static helpers.Artist.WIDTH;
 import static helpers.Artist.left;
 import static helpers.Artist.scrollMap;
 import static helpers.Artist.top;
@@ -66,7 +65,7 @@ public class Player {
 		//Maus input
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown ){
 			if (toggleUI){
-				towerUI.setTowerPicked(towerUI.getButtonClicked());;
+				towerUI.setItemPicked(towerUI.getButtonClicked());;
 				//System.out.println(towerUI.getTowerPicked());
 			}
 			else{	
@@ -157,7 +156,7 @@ public class Player {
 		TowerType type=null;
 		//Aus dem String den zugehörigen TowerType suchen
 		for (TowerType t: TowerType.values()){
-			if (t.name().equals(towerUI.getTowerPicked()))
+			if (t.name().equals(towerUI.getItemPicked()))
 				type=t;
 		}
 		if (type==null)

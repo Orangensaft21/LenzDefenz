@@ -9,15 +9,15 @@ import data.TowerType;
 import static helpers.Artist.WIDTH;
 public class PickUI extends UI{
 	
-	private String towerPicked ="none";
+	private String itemPicked ="none";
 	private Texture greenFrame = QuickLoad("rahmen");
 	
-	public String getTowerPicked() {
-		return towerPicked;
+	public String getItemPicked() {
+		return itemPicked;
 	}
 	
-	public void setTowerPicked(String towerPicked) {
-		this.towerPicked = towerPicked;
+	public void setItemPicked(String towerPicked) {
+		this.itemPicked = towerPicked;
 	}
 	
 	@Override
@@ -25,7 +25,7 @@ public class PickUI extends UI{
 		for (Button b:buttonList){
 			DrawQuadTex(b.getTexture(),b.getX(),b.getY(),b.getWidth(),b.getHeight());
 		}
-		Button b = getButton(towerPicked);
+		Button b = getButton(itemPicked);
 		if (b!=null){
 			DrawQuadTex(greenFrame,b.getX()-3,b.getY()-3,70,70);
 		}

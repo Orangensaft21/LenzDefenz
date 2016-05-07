@@ -18,6 +18,6 @@ public class SlowTower extends Tower{
 	public void shoot(){
 		//System.out.println(target.getID());
 		projectiles.add(new ProjectileSplash(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
-									   y+TILE_SIZE/2-TILE_SIZE/4,911,damage,target));
+									   y+TILE_SIZE/2-TILE_SIZE/4,333,damage,target));
 	}
 }

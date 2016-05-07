@@ -45,7 +45,7 @@ public class Editor {
 		
 		if (Mouse.isButtonDown(0) ){
 			if (toggleUI){
-				tileUI.setTowerPicked(tileUI.getButtonClicked());
+				tileUI.setItemPicked(tileUI.getButtonClicked());
 			}
 			else
 				SetTile();
@@ -70,7 +70,7 @@ public class Editor {
 	public void SetTile(){
 		TileType t=TileType.Grass;
 		for (TileType type: TileType.values()){
-			if (type.textureName.equals(tileUI.getTowerPicked()))
+			if (type.textureName.equals(tileUI.getItemPicked()))
 				t=type;
 			
 		}
