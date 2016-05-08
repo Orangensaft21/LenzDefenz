@@ -4,6 +4,8 @@ import static helpers.Artist.QuickLoad;
 import static helpers.Artist.TILE_SIZE;
 import static helpers.Artist.WIDTH;
 
+import org.newdawn.slick.opengl.Texture;
+
 import data.Enemy;
 import data.ProjectileBall;
 import data.Tile;
@@ -15,10 +17,14 @@ public class MultiTower extends Tower{
 	
 	protected Enemy target2, target3;
 	private boolean targeted2, targeted3;
+	static private Texture geschoss;
+	
 	public MultiTower(TowerType type, Tile startTile) {
 		super(type, startTile);
 		targeted2=false;
 		targeted3=false;
+		if (geschoss==null)
+			MultiTower.geschoss=QuickLoad("stern");
 	}
 
 	@Override
@@ -37,13 +43,13 @@ public class MultiTower extends Tower{
 		else 
 			targeted3=true;
 		
-		projectiles.add(new ProjectileBall(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
+		projectiles.add(new ProjectileBall(geschoss,x+TILE_SIZE/2-TILE_SIZE/4,
 				   y+TILE_SIZE/2-TILE_SIZE/4,911,damage,target));
 		if (targeted2)
-			projectiles.add(new ProjectileBall(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
+			projectiles.add(new ProjectileBall(geschoss,x+TILE_SIZE/2-TILE_SIZE/4,
 					   y+TILE_SIZE/2-TILE_SIZE/4,911,damage,target2));
 		if (targeted3)
-			projectiles.add(new ProjectileBall(QuickLoad("bullet"),x+TILE_SIZE/2-TILE_SIZE/4,
+			projectiles.add(new ProjectileBall(geschoss,x+TILE_SIZE/2-TILE_SIZE/4,
 					   y+TILE_SIZE/2-TILE_SIZE/4,444,damage,target3));
 	}
 	
