@@ -8,8 +8,12 @@ import org.newdawn.slick.opengl.Texture;
 import static helpers.Artist.*;
 
 public abstract class Projectile implements Entity{
-	private Texture texture;
-	private float x,y,speed,xSpeed,ySpeed;
+	protected Texture texture;
+	protected float x;
+	protected float y;
+	private float speed;
+	protected float xSpeed;
+	protected float ySpeed;
 	protected int damage;
 	private int width;
 	private int height;
@@ -56,9 +60,10 @@ public abstract class Projectile implements Entity{
 	
 	public void update(){
 		if (alive){
+			draw();
 			x += xSpeed*Delta()*speed;
 			y += ySpeed*Delta()*speed;
-			draw();
+			
 			if (checkCollision(x,y,width,height,target.getX(),
 							 target.getY(), target.getWidth(),target.getHeight())){
 				damage();

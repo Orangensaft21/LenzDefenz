@@ -5,7 +5,6 @@ import static helpers.Artist.WIDTH;
 import static helpers.Artist.totalZoom;
 import static helpers.Artist.HEIGHT;
 import static helpers.Leveler.saveMap;
-
 import java.awt.Font;
 
 import org.lwjgl.input.Keyboard;
@@ -13,20 +12,20 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.TrueTypeFont;
 
 import UI.PickUI;
+import helpers.Clock;
+import helpers.GameManager;
+import helpers.Leveler;
 
 public class Editor {
 	
 	private TileGrid grid;
-	private TileType[] types;
-	private int index;
 	private PickUI tileUI;
 	@SuppressWarnings("unused")
 	private boolean leftMouseButtonDown,rightMouseButtonDown, toggleUI;
 	TrueTypeFont font;
 	
 	public Editor(){
-		grid = new TileGrid();
-		types = new TileType[3];
+		grid = Leveler.loadMap("LenzMap1");
 		tileUI = new PickUI();
 		tileUI.addButton("grass", TileType.Grass, (int) (WIDTH*0.45f), (int) (HEIGHT*0.45f));
 		tileUI.addButton("dirt", TileType.Dirt, (int) (WIDTH*0.50f), (int) (HEIGHT*0.45f));
@@ -39,7 +38,8 @@ public class Editor {
 	
 	public void update(){
 		grid.draw();
-		font.drawString(WIDTH*0.72f/totalZoom, HEIGHT*0.01f/totalZoom, "s drücken zum speichern");
+		if (Clock.TotalTime() < 5)
+			font.drawString(WIDTH*0.72f/totalZoom, HEIGHT*0.01f/totalZoom, "s drücken zum speichern");
 		if (toggleUI)
 			tileUI.Draw();
 		
@@ -62,6 +62,10 @@ public class Editor {
 			
 			if (Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState()){
 				saveMap("LenzMap1",grid);
+			}
+			if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE && Keyboard.getEventKeyState()){
+				GameManager.setState(GameManager.GameState.MAINMENU);
+				Boot.grid = Leveler.loadMap("LenzMap1");
 			}
 		}
 	}

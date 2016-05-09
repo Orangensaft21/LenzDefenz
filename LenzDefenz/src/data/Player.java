@@ -22,6 +22,8 @@ import Towers.SlowTower;
 import Towers.TowerIce;
 import UI.PickUI;
 import helpers.Clock;
+import helpers.GameManager;
+import helpers.Leveler;
 public class Player {
 
 	private TileGrid grid;
@@ -113,6 +115,9 @@ public class Player {
 			}
 			if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT && Keyboard.getEventKeyState()){
 				Clock.changeMultiplier(+0.2f);
+			}
+			if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE && Keyboard.getEventKeyState()){
+				GameManager.setState(GameManager.GameState.MAINMENU);
 			}
 			// scroll test
 		}

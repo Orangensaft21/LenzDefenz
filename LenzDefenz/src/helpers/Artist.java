@@ -180,7 +180,7 @@ public class Artist {
 	
 	public static void DrawQuadTexRot(Texture tex, float x, float y, float width, float height,float angle){
 		tex.bind();
-		glTranslatef(x + width/2,y +height/2,0);
+		glTranslatef(x+width/2,y+height/2,0);
 		glRotatef(angle,0,0,1);
 		glTranslatef(-width/2,-height/2,0);
 		glBegin(GL_QUADS);

@@ -48,6 +48,7 @@ public class Game {
 				System.out.println("ruckelruckel");
 		
 		font.drawString(WIDTH*0.90f/totalZoom, HEIGHT*0.01f/totalZoom, "Lives: "+Player.lives);
+		
 	}
 	
 }
