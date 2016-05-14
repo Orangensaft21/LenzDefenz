@@ -30,6 +30,7 @@ public class Game {
 		waveManager = new WaveManager(0.5f,8);
 		player = new Player(grid, waveManager);
 		Player.lives= 30;
+		Player.gold=50;
 		//
 		//testen schrift
 		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
@@ -47,7 +48,8 @@ public class Game {
 		if (Delta()>0.02)
 				System.out.println("ruckelruckel");
 		
-		font.drawString(WIDTH*0.90f/totalZoom, HEIGHT*0.01f/totalZoom, "Lives: "+Player.lives);
+		font.drawString(WIDTH*0.89f/totalZoom, HEIGHT*0.01f/totalZoom, "Lives: "+Player.lives);
+		font.drawString(WIDTH*0.89f/totalZoom, HEIGHT*0.05f/totalZoom, "Gold: "+Player.gold);
 		
 	}
 	

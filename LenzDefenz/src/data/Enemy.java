@@ -172,6 +172,8 @@ public class Enemy implements Entity{
 		alive = false;
 		if (finished)
 			Player.lives--;
+		else
+			Player.gold+=enemyType.goldLoot;
 	}
 	
 	public void Damage(int amount){

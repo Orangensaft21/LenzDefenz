@@ -32,7 +32,7 @@ public class Player {
 	private ArrayList<Tower> towerList;
 	private boolean leftMouseButtonDown,rightMouseButtonDown,toggleUI;
 	private PickUI towerUI;
-	public static int lives;
+	public static int lives, gold;
 	
 	public Player(TileGrid grid,WaveManager waveManager){
 		this.grid=grid;

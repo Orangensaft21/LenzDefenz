@@ -19,7 +19,7 @@ public abstract class Tower implements Entity{
 	private float timeSinceLastShot;
 	private int width,height;
 	protected int damage;
-	private int range;
+	protected int range;
 	protected Enemy target;
 	private Texture[] textures;
 	protected boolean targeted;
@@ -38,6 +38,7 @@ public abstract class Tower implements Entity{
 		this.attackSpeed=type.attackSpeed;
 		this.angle=0;
 		this.timeSinceLastShot=0;
+		Player.gold-=type.cost;
 		
 		
 	}

@@ -34,11 +34,11 @@ public class MultiTower extends Tower{
 		if (targeted2&&!targeted3)
 			target3=acquireTarget();
 		
-		if(target2==null || target2.isAlive()==false || !isInRange(target2))
+		if(target2==null || target2.isAlive()==false || !isInRange(target2,10))
 			targeted2=false;
 		else
 			targeted2=true;
-		if(target3==null || target3.isAlive()==false || !isInRange(target3))
+		if(target3==null || target3.isAlive()==false || !isInRange(target3,10))
 			targeted3=false;
 		else 
 			targeted3=true;
@@ -69,5 +69,9 @@ public class MultiTower extends Tower{
 		return closest;
 	}
 	
-	
+	private boolean isInRange(Enemy e, int off){
+		if(findDistance(e)>range+off)
+			return false;
+		return true;
+	}
 }
