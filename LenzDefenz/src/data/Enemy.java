@@ -3,8 +3,6 @@ package data;
 import static helpers.Artist.DrawQuadTex;
 import static helpers.Clock.Delta;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.newdawn.slick.opengl.Texture;
 
 import pathfinding.AStarPathFinder;
